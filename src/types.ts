@@ -33,8 +33,8 @@ type BookDocument = {
     id?: string
     userId?: string
     title: string
-    topicPrompt?: string
-    audiencePrompt?: string
+    topicPrompt?: string | null | undefined
+    audiencePrompt?: string | null | undefined
     descriptionPrompt?: string
     chapters: Chapter[]
     bookContents: BookChapter[]
