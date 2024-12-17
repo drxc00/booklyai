@@ -1,16 +1,18 @@
 import openai from "./openai";
+import prisma from "./prisma-db";
 import { Prompts } from "./prompts";
-
+import { PutObjectCommand } from "@aws-sdk/client-s3";
+import { BUCKET_NAME, getS3Client } from "./aws";
 
 export async function generateBookOutline(
-    booktopic: string, 
-    targetaudience: string, 
+    booktopic: string,
+    targetaudience: string,
     bookdescription: string
-) : Promise<string | null> {
-    
+): Promise<string | null> {
+
     // Construct the prompt to generate the outline
     const outlinePrompt = Prompts.generateOutlinePrompt(booktopic, targetaudience, bookdescription);
-    
+
     // Invokes the OpenAI API to generate the outline
     const completion = await openai.chat.completions.create({
         model: "gpt-4o-mini",
@@ -66,4 +68,56 @@ export async function generateBookOutline(
 
     // Extract the outline from the response and return as a string.
     return completion.choices[0].message.content as string;
+}
+
+interface BuildPDFInterface {
+    bookId: string;
+    buffer: any;
+    type: string;
+}
+
+export async function buildPDF({
+    bookId,
+    buffer,
+    type
+}: BuildPDFInterface): Promise<void> {
+    // We fetch the book data from the database.
+    const book = await prisma.books.findUniqueOrThrow({
+        where: {
+            id: bookId,
+        }
+    })
+    // Get the S3 Client
+    const s3Client = getS3Client();
+
+    // Configure the upload Command 
+    const command = new PutObjectCommand({
+        Bucket: BUCKET_NAME,
+        Key: `${bookId}/${type}.pdf`,
+        ContentType: "application/pdf",
+        Body: buffer as unknown as Buffer
+    })
+
+    // Update the database based on the type
+    const updateData = {
+        preview: {
+            isPreviewGenerated: true,
+            awsPreviewId: `${bookId}/${type}.pdf`
+        },
+        final: {
+            awsFinalId: `${bookId}/${type}.pdf`,
+            isPurchased: true
+        }
+    }
+
+    // Perform the upload and update
+    await Promise.all([
+        await s3Client.send(command),
+        prisma.books.update({
+            where: {
+                id: bookId
+            },
+            data: updateData[type as keyof typeof updateData]
+        })
+    ])
 }

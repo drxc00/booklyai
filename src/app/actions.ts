@@ -11,6 +11,12 @@ import { PutObjectCommand } from "@aws-sdk/client-s3";
 import { BUCKET_NAME, getS3Client } from "@/lib/aws";
 import { auth, signOut } from "@/lib/auth";
 import { ENVIRONMENT } from "@/lib/utils";
+import { buildPDF } from "@/lib/generators";
+
+export async function getS3Link(bookId: string, type: string): Promise<string> {
+    return `https://${BUCKET_NAME}.s3.amazonaws.com/${bookId}/${type}.pdf`;
+}
+
 
 async function getUserId(): Promise<string> {
     const session = await auth();
@@ -75,33 +81,34 @@ export const bookGenerator = streamResponse(async function* (bookId: string) {
         bookContents: [...book.bookContents, ...GeneratedContents] as BookChapter[], // Concatenate the existing book contents with the generated contents
         chapters: book.chapters as Chapter[],
     }
-    // Create a book key for S3 bucket
-    const bookKey = `${bookId}/final.pdf`;
 
     // Uses react-pdf's renderToStream api to generate a pdf stream
     // Then convert the stream to a buffer
     const buf = await buffer(await renderToStream(DocumentBuilder({ bookData: fullBookData }))); // Convert stream to buffer
-    // Configure the upload Command 
-    const command = new PutObjectCommand({
-        Bucket: BUCKET_NAME,
-        Key: bookKey,
-        ContentType: "application/pdf",
-        Body: buf as unknown as Buffer
-    });
-    // Upload to S3
-    const s3Client = getS3Client();
-    await s3Client.send(command);
-    // Update the book document
-    await prisma.books.update({
-        where: {
-            id: bookId,
-            userId: userId
-        },
-        data: {
-            awsFinalId: bookKey,
-            isPurchased: true
-        }
-    });
+    // // Configure the upload Command 
+    // const command = new PutObjectCommand({
+    //     Bucket: BUCKET_NAME,
+    //     Key: bookKey,
+    //     ContentType: "application/pdf",
+    //     Body: buf as unknown as Buffer
+    // });
+    // // Upload to S3
+    // const s3Client = getS3Client();
+    // await s3Client.send(command);
+    // // Update the book document
+    // await prisma.books.update({
+    //     where: {
+    //         id: bookId,
+    //         userId: userId
+    //     },
+    //     data: {
+    //         awsFinalId: bookKey,
+    //         isPurchased: true
+    //     }
+    // });
+
+    // Invoke the pdf builder
+    await buildPDF({ bookId, buffer: buf, type: "final" });
 });
 
 async function fetchBookData(bookId: string) {
@@ -172,93 +179,45 @@ export async function generateChapter(chapter: Chapter): Promise<BookChapter> {
     return JSON.parse(completion.choices[0].message.content as string);
 }
 
-
-export async function buildPDF(bookId: string, type: string): Promise<void> {
-    // Get user id
-    const userId = await getUserId();
-    // We fetch the book data from the database.
-    const book = await prisma.books.findUniqueOrThrow({
-        where: {
-            id: bookId,
-            userId: userId
-        }
-    })
-    // Uses react-pdf's renderToStream api to generate a pdf stream
-    // Then convert the stream to a buffer
-    const buf = await buffer(await renderToStream(DocumentBuilder({
-        bookData: {
-            ...book,
-            bookContents: book.bookContents as BookChapter[],
-            chapters: book.chapters as Chapter[],
-        } as BookDocument
-    }))); // Convert stream to buffer
-    // Configure the upload Command 
-    const command = new PutObjectCommand({
-        Bucket: BUCKET_NAME,
-        Key: `${bookId}/${type}.pdf`,
-        ContentType: "application/pdf",
-        Body: buf as unknown as Buffer
-    })
-    // Upload to S3
-    const s3Client = getS3Client();
-    await s3Client.send(command);
-    // Update the book based on the type
-    // If the type is preview, this means that the generated pdf is a preview
-    // Otherwise it is the final pdf
-    switch (type) {
-        case "preview":
-            await prisma.books.update({
-                where: {
-                    id: bookId,
-                    userId: userId
-                },
-                data: {
-                    awsPreviewId: `${bookId}/${type}.pdf`
-                }
-            })
-            break;
-        case "final":
-            await prisma.books.update({
-                where: {
-                    id: bookId
-                },
-                data: {
-                    awsFinalId: `${bookId}/${type}.pdf`,
-                    isPurchased: true // Mark the book as purchased
-                }
-            })
-            break;
-    }
-}
-
-
 export async function generateBookPreview(bookId: string): Promise<void> {
     // Get user id
     const userId = await getUserId();
     // Retrieve only the chapters of the book.
-    const previewChapter = await prisma.books.findUniqueOrThrow({
-        where: {
-            id: bookId,
-            userId: userId // Double check that the book belongs to the user
-        },
-        select: {
-            chapters: true
-        },
-    });
+    const book = await fetchBookData(bookId);
     // If no chapter data is found, throw an error
-    if (!previewChapter) throw Error("No chapter data found");
+    if (!book) throw Error("No book data found");
+
     // Invoke the preview generation.
-    // This is a void server action. We do not need to return anything
-    await generateChapterContent(previewChapter.chapters[0] as Chapter, bookId);
-    // Update the book by setting 'isPreviewGenerated' to true
-    await prisma.books.update({
-        where: {
-            id: bookId
-        },
-        data: {
-            isPreviewGenerated: true
-        }
-    });
+    // This will generate the preview for the first chapter
+    const firstChapter = await generateChapter(book.chapters[0] as Chapter);
+
+    const bookData = {
+        ...book,
+        chapters: book.chapters as Chapter[],
+        bookContents: [firstChapter]
+    };
+
+    // Invoke the pdf builder
+    const buf: Buffer = await buffer(await renderToStream(DocumentBuilder({ bookData })));
+
+
+    // In this case, we also push the first chapter to the bookContents
+    // This prevents the book generator from overwriting the first chapter
+    await Promise.all([
+        buildPDF({ bookId, buffer: buf, type: "preview" }),
+        prisma.books.update({
+            where: {
+                id: bookId
+            },
+            data: {
+                isPreviewGenerated: true,
+                bookContents: {
+                    push: firstChapter
+                }
+            }
+        }),
+
+    ])
 }
 
 export async function generateChapterContent(chapter: Chapter, bookId: string): Promise<void> {
