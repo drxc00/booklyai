@@ -30,7 +30,7 @@ export default async function RootLayout({
 }>) {
 
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <ReactQueryProvider>
         <body
           className={`${geistSans.variable} ${geistMono.variable} antialiased m-0 p-0 w-full h-full`}
