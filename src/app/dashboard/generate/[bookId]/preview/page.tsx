@@ -61,7 +61,7 @@ export default function PreviewPage({ params }: { params: Promise<{ bookId: stri
 
     // redirect user to main book page if book is purchased
     if (bookData && bookData.isPurchased) {
-        router.replace(`/dashboard/book/${bookId}`);
+        router.push(`/dashboard/book/${bookId}`);
         return;
     }
 
