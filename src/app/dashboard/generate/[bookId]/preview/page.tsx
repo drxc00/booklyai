@@ -42,6 +42,12 @@ export default function PreviewPage({ params }: { params: Promise<{ bookId: stri
 
     // Side effect on mount
     useEffect(() => {
+        // redirect user to main book page if book is purchased
+        if (bookData && bookData.isPurchased) {
+            router.push(`/dashboard/book/${bookId}`);
+            return;
+        }
+
         // Function to fetch the S3 link
         const fetchS3Link = async () => {
             const s3Link = await getS3Link(bookId, "preview");
@@ -58,12 +64,6 @@ export default function PreviewPage({ params }: { params: Promise<{ bookId: stri
     if (isLoading) return <div className="flex items-center justify-center h-[calc(100vh-4rem)]"><Loader message="Loading" /></div>;
     if (isError) return <div>Error: {error as string}</div>;
     if (!bookData) return <div>Book not found</div>;
-
-    // redirect user to main book page if book is purchased
-    if (bookData && bookData.isPurchased) {
-        router.push(`/dashboard/book/${bookId}`);
-        return;
-    }
 
     // render generating page when preview is not generated
     if (isGeneratingPreview) {

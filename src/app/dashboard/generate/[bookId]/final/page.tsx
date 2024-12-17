@@ -48,6 +48,11 @@ export default function FinalPage({ params }: { params: Promise<{ bookId: string
         // Check if the book data is loaded.
         // This is is use to prevent the useEffect from running before the book data is loaded.
         if (isLoading || !bookData) return;
+        // If the book is purchased, we redirect the user to the book.
+        if (bookData && bookData.isPurchased) {
+            router.push(`/dashboard/book/${bookId}`);
+            return;
+        }
         const generateFinal = async () => {
             // Set the 'isGenerating' state to true to trigger a loading screen
             setIsGenerating(true);
@@ -56,14 +61,14 @@ export default function FinalPage({ params }: { params: Promise<{ bookId: string
             // Invoke the handleGenerate callback that generates the chapters
             await handleGenerate();
         }
-        // Trigger the generation
-        generateFinal();
-    }, []); // Note that we have an empty dependency array, this means that the useEffect will only run once.
-    // If the book is purchased, we redirect the user to the book.
-    if (bookData && bookData.isPurchased) {
-        router.push(`/dashboard/book/${bookId}`);
-        return;
-    }
+
+        // If the book is not purchased, we generate the final book
+        if (bookData && !bookData.isPurchased) {
+            generateFinal();
+        }
+    }, [bookData]); // Note that we have an empty dependency array, this means that the useEffect will only run once.
+
+
     // Render an Error Screen when 'isError' state is true
     if (isError) {
         <div className="flex items-center justify-center h-[calc(100vh-4rem)]">
