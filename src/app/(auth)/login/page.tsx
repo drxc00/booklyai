@@ -37,8 +37,9 @@ export default async function LoginPage({ params }: LoginPageProps) {
                 </CardHeader>
                 <CardContent className="text-center">
                     <div className="flex flex-col gap-2">
-                        {Object.values(providerMap).map((provider) => (
+                        {Object.values(providerMap).map((provider, index) => (
                             <form
+                                key={index}
                                 action={async () => {
                                     "use server"
                                     try {
