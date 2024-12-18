@@ -30,4 +30,19 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     pages: {
         signIn: "/login"
     },
+    session: {
+        strategy: "jwt",
+    },
+    callbacks: {
+        async jwt({ token, user }) {
+            return token
+        },
+        async session({ session, token }) {
+            const userId = token.sub as string;
+            session.user.id = userId;
+            session.user.email = token.email as string;
+            session.user.name = token.name as string;
+            return session
+        }
+    }
 })
