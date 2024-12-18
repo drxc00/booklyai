@@ -9,7 +9,7 @@ export default function LogOutButton({ children, className, variant }: { childre
         <form action={async () => {
             "use server";
             await signOut({
-                redirectTo: "/"
+                redirectTo: "/login"
             })
         }}>
             <Button variant={variant} className={className}>{children}</Button>

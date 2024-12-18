@@ -41,7 +41,7 @@ export default async function Home() {
                 <span className="ml-1">Powered by gpt-4o</span>
               </Badge>
               <div className="scroll-m-20 text-4xl tracking-normal lg:text-4xl flex gap-2 justify-center lg:justify-start">
-                <div>generate ebooks for <span className="font-bold w-48 items-center">
+                <div>Generate ebooks for <span className="font-bold w-48 items-center">
                   <TextLoop interval={2}>
                     <span>learning</span>
                     <span>knowledge</span>
@@ -50,7 +50,7 @@ export default async function Home() {
                 </span> </div>
 
               </div>
-              <p className="mt-2 text-muted-foreground text-xl lg:p-0">booklyai: An AI powered ebook generator that actually works</p>
+              <p className="mt-2 text-muted-foreground text-xl lg:p-0"><span className="font-bold">booklyai</span>: An AI powered ebook generator that actually works</p>
             </div>
 
             <div className="flex gap-3">
