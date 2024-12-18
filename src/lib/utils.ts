@@ -32,17 +32,14 @@ export function MarkdownToHTML(markdownContent: string): string {
 }
 
 export function generatedSinceWhen(createdAt: Date): string {
-  // Calculate the days since the book was generated
   const now = new Date();
-  // Calculate the minutes since the book was generated
   const diffInMinutes = Math.floor((now.getTime() - createdAt.getTime()) / 1000 / 60);
-  // Calculate the hours since the book was generated
   const inHours = Math.floor(diffInMinutes / 60);
+
   // Conditionally check if the hours exceeds a day
   if (inHours > 24) {
     // Calculate the days since the book was generated
     const days = Math.floor(inHours / 24);
-    // We then return an appropriate string based on the number of days
     return days > 1 ? `${days} days` : `${days} day`;
   }
   // Default case, we return a string in hours.
