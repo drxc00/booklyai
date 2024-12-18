@@ -1,5 +1,4 @@
 import NavBar from "@/components/nav-bar";
-import { auth } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import cachedSession from "@/lib/session-cache";
 export default async function DashboardLayout({ children }: { children: React.ReactNode }) {
