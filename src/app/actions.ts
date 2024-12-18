@@ -10,7 +10,7 @@ import { buffer } from "node:stream/consumers";
 import { PutObjectCommand } from "@aws-sdk/client-s3";
 import { BUCKET_NAME, getS3Client } from "@/lib/aws";
 import { auth, signOut } from "@/lib/auth";
-import { ENVIRONMENT } from "@/lib/utils";
+import { ENVIRONMENT, ERROR_MESSAGES, MESSAGES } from "@/lib/utils";
 import { buildPDF } from "@/lib/generators";
 
 export async function getS3Link(bookId: string, type: string): Promise<string> {
@@ -48,65 +48,38 @@ function streamResponse<T, P extends any[]>(createGenerator: (...args: P) => Asy
 }
 
 export const bookGenerator = streamResponse(async function* (bookId: string) {
-    const userId = await getUserId(); // Get the user id
-    if (!userId) throw Error("Authentication failed. Please log in."); // Short circuit if no user id is found
+    // Get the userid and book data
+    const [userId, book] = await Promise.all([
+        getUserId(),
+        fetchBookData(bookId),
+    ]) as [string, BookDocument];
 
-    let GeneratedContents = []; // Initialize an array to store the generated contents
-    const book = await fetchBookData(bookId); // Retrieve only the chapters of the book.
+    // Short circuit if no user id is found or no book data is found
+    if (!userId) throw Error(ERROR_MESSAGES.AUTH_FAILED);
+    if (!book) throw Error(ERROR_MESSAGES.NO_CHAPTER_DATA);
 
-    // If no chapter data is found, throw an error
-    if (!book) throw Error("No chapter data found");
     // Filter out chapters that are already generated and chapters that are already in the bookContents
     const chaptersToGenerate = book.chapters.filter((chapter) => (
-        !book.bookContents.some((bookContent) => (bookContent as BookChapter).title === (chapter as Chapter).title)
+        !book.bookContents.some((bookContent) => bookContent.title === chapter.title)
     ));
 
+    // Initialize an array to store the generated contents
+    const generatedContents: BookChapter[] = [];
     // Yield the chapter title for client-side updates
     for (const chapter of chaptersToGenerate) {
-        // Generate the chapter content
-        const content = await generateChapter(chapter as Chapter);
-        // Push the generated content to the array
-        GeneratedContents.push(content);
-        // Yield the chapter title for client-progress
-        yield `${(chapter as Chapter).title}`;
+        const content = await generateChapter(chapter); // Generate the chapter content
+        generatedContents.push(content); // Push the generated content to the array
+        yield chapter.title; // Notify progress
     }
-
     // Yield Final message
-    yield `Building the PDF file`;
+    yield MESSAGES.BUILDING_PDF;
 
     // Build the PDF
     // Concatenate the existing book contents with the generated contents
-    const fullBookData = {
-        ...book,
-        bookContents: [...book.bookContents, ...GeneratedContents] as BookChapter[], // Concatenate the existing book contents with the generated contents
-        chapters: book.chapters as Chapter[],
-    }
-
+    const fullBookData = { ...book, bookContents: [...book.bookContents, ...generatedContents] };
     // Uses react-pdf's renderToStream api to generate a pdf stream
     // Then convert the stream to a buffer
     const buf = await buffer(await renderToStream(DocumentBuilder({ bookData: fullBookData }))); // Convert stream to buffer
-    // // Configure the upload Command 
-    // const command = new PutObjectCommand({
-    //     Bucket: BUCKET_NAME,
-    //     Key: bookKey,
-    //     ContentType: "application/pdf",
-    //     Body: buf as unknown as Buffer
-    // });
-    // // Upload to S3
-    // const s3Client = getS3Client();
-    // await s3Client.send(command);
-    // // Update the book document
-    // await prisma.books.update({
-    //     where: {
-    //         id: bookId,
-    //         userId: userId
-    //     },
-    //     data: {
-    //         awsFinalId: bookKey,
-    //         isPurchased: true
-    //     }
-    // });
-
     // Invoke the pdf builder
     await buildPDF({ bookId, buffer: buf, type: "final" });
 });
@@ -308,17 +281,9 @@ export async function getBooks(numberOfBooks?: number): Promise<BookDocument[] |
     try {
         // If 'numberOfBooks' is not provided, we return all the books
         const query = numberOfBooks ? { take: numberOfBooks } : {};
-        const books = await prisma.books.findMany(query as object);
-        if (!books) throw Error("Books not found");
-        // Since the types of the returned book document differs from the defined type
-        // We override the types by mapping each item in the returned list with the defined type
-        return books.map(book => (
-            {
-                ...book,
-                bookContents: book.bookContents as BookChapter[],
-                chapters: book.chapters as Chapter[],
-            }
-        )) as BookDocument[];
+        const books = await prisma.books.findMany(query as object) as unknown as BookDocument[] | null;
+        if (!books) throw Error(ERROR_MESSAGES.NO_BOOKS);
+        return books;
     } catch (error) {
         console.log(error);
         return null;
@@ -332,7 +297,7 @@ export async function getBookData(bookId: string) {
             }
         });
         // Throw an error if no books are found
-        if (!book) throw Error("Book not found");
+        if (!book) throw Error(ERROR_MESSAGES.NO_BOOK_DATA);
         return book;
     } catch (error) {
         console.log(error);

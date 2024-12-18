@@ -112,7 +112,7 @@ export async function buildPDF({
 
     // Perform the upload and update
     await Promise.all([
-        await s3Client.send(command),
+        s3Client.send(command),
         prisma.books.update({
             where: {
                 id: bookId
