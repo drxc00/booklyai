@@ -1,6 +1,4 @@
-
-
-import { Page, View, Text, StyleSheet } from "@react-pdf/renderer";
+import { Page, View, Text } from "@react-pdf/renderer";
 import { styles } from '@/lib/react-pdf-styles';
 import PDFMarkdownParser from "./markdown-parser";
 

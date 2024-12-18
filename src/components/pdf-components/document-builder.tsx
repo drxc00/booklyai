@@ -1,17 +1,14 @@
-
-
-import { Document, View } from "@react-pdf/renderer";
+import { Document } from "@react-pdf/renderer";
 import PDFTitlePage from "./title-page";
 import PDFTableOfContents from "./table-of-contents";
 import PDFChapterPage from "./chapter-page";
-import { styles } from "@/lib/react-pdf-styles";
 
-export default function DocumentBuilder({ bookData }: { bookData: BookDocument }) : JSX.Element {
+export default function DocumentBuilder({ bookData }: { bookData: BookDocument }): JSX.Element {
 
     return (
         <Document
             title={bookData.title}
-            subject={bookData.topicPrompt}
+            subject={bookData?.topicPrompt ?? "BooklyAI"}
             creator="booklyai"
             producer="booklyai"
             language="en"
