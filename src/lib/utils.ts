@@ -10,6 +10,8 @@ export const ENVIRONMENT: "production" | "development" | "test" = "development";
 export const ERROR_MESSAGES = {
   AUTH_FAILED: "Authentication failed. Please log in.",
   NO_CHAPTER_DATA: "No chapter data found",
+  NO_BOOK_DATA: "No book data found",
+  NO_BOOKS: "No books found",
 };
 
 export const MESSAGES = {
