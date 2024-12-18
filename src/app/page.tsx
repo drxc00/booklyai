@@ -9,7 +9,7 @@ import { AiOutlineOpenAI } from "react-icons/ai";
 import cachedSession from "@/lib/session-cache";
 import LogOutButton from "@/components/(auth-components)/log-out";
 import { MdCollectionsBookmark, MdOutlineLogout } from "react-icons/md";
-
+import { Session } from "next-auth";
 
 // Apply Caching to prevent excessive Vercel Functions Cost
 const getBooksLatest = cache(async () => await getBooks(20),
@@ -18,10 +18,12 @@ const getBooksLatest = cache(async () => await getBooks(20),
 );
 
 export default async function Home() {
-  // Get Session
-  const session = await cachedSession();
-  // Server-side fetching
-  const booksLatest: BookDocument[] = await getBooksLatest() as BookDocument[];
+  // Fetch both the cached session and the latest books
+  const [session, booksLatest] = await Promise.all([
+    cachedSession(),
+    getBooksLatest()
+  ]) as [Session, BookDocument[]];
+
   return (
     <div className="grid justify-items-center max-w-full">
       <main className="min-h-screen">
