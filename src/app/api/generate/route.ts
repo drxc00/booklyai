@@ -1,20 +1,19 @@
-import { NextRequest } from "next/server";
 import { generateBookOutline } from "@/lib/generators";
 import { TestData } from "@/tests/test.data";
 import prisma from "@/lib/prisma-db";
-import { ENVIRONMENT } from "@/lib/utils";
+import { ENVIRONMENT, ERROR_MESSAGES } from "@/lib/utils";
 import { auth } from "@/lib/auth";
 
-export async function POST(req: NextRequest) {
-    // We Destructure the request
-    const { booktopic, targetaudience, bookdescription } = await req.json();
+// Wrap the POST request with the auth handler to check if the user is authenticated
+export const POST = auth(async function POST(req) {
     // Handle the request with proper error handling
     try {
-        // Handle user session
-        const session = await auth();
-        const userId = session?.user?.id;
+        // We Destructure the request
+        const { booktopic, targetaudience, bookdescription } = await req.json();
+
         // Throw an error if no session is found
-        if (!userId) throw Error("User not found");
+        if (!req.auth) throw Error(ERROR_MESSAGES.AUTH_FAILED);
+
         // We check if the title and audience are provided
         if (!booktopic || !targetaudience || bookdescription) return Response.json({ error: "Missing title, audience, or description" }, { status: 400 });
         // Generate Book Outline
@@ -31,7 +30,7 @@ export async function POST(req: NextRequest) {
         // Starting from preview stage to final build
         const bookDocument = await prisma.books.create({
             data: {
-                userId: userId,
+                userId: req.auth.user?.id as string,
                 title: outlineJSON.booktitle,
                 topicPrompt: booktopic,
                 audiencePrompt: targetaudience,
@@ -47,4 +46,4 @@ export async function POST(req: NextRequest) {
         // Return an error response
         return Response.json({ error: (error as Error).message }, { status: 500 });
     }
-}
+})
