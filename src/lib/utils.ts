@@ -6,6 +6,16 @@ import { twMerge } from "tailwind-merge";
 // Flag to determine if we are in production
 export const ENVIRONMENT: "production" | "development" | "test" = "development";
 
+// Constant messages
+export const ERROR_MESSAGES = {
+  AUTH_FAILED: "Authentication failed. Please log in.",
+  NO_CHAPTER_DATA: "No chapter data found",
+};
+
+export const MESSAGES = {
+  BUILDING_PDF: "Building the PDF file",
+};
+
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
 }
