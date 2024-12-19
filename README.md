@@ -1,6 +1,6 @@
 # 📚 bookly**ai** (In Progress)
 An AI-Powered Ebook Generator that actually works. Powered by 🤖 GPT-4o.
-Built with 🚀 Next.js 15 App Router, 🟦 TypeScript, 🍃 MongoDB, ☁️ AWS S3 & 🌐 CloudFlare, and 💳 Paddle.
+Built with 🚀 Next.js 15 App Router, 🟦 TypeScript, 🍃 MongoDB, ☁️ AWS S3 & 🌐 CloudFlare, and 💳 LemonSqueezy.
 
 ## ✨ Features
 - 🛠️ Created using **Next.js 15**
@@ -9,11 +9,12 @@ Built with 🚀 Next.js 15 App Router, 🟦 TypeScript, 🍃 MongoDB, ☁️ AWS
 - 📖 Allows users to generate ebook based on a `topic`, `target audience`, and `description`
 - 📄 Chapter previews for individual chapters before the final book is generated
 - 🌟 Powered by **GPT-4o** model for quality generations
-- ⏱️ Real-time book generation status updates
+- ⏱️ Real-time book generation status updates (Might be removed when switing to lambda functions)
 - 🎨 Relatively clean UI *(lmao)* with **ShadCN**.
 ### 📝 Current To-Do's
-- 💵 Integrate **Paddle** for payments
+- 💵 Integrate **LemonSqueezy** for payments. (Currently on the webhook testing).
 - 🌐 Implement **CloudFlare** CDN (Currently restricted due to AWS issues)
+- ☁️ Migrate book generation to AWS Lambda.
 - 🔐 Add more security to requests.
 
 ## 🛠️ How to Run booklyai Locally
