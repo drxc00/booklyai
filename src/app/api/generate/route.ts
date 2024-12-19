@@ -3,11 +3,17 @@ import { TestData } from "@/tests/test.data";
 import prisma from "@/lib/prisma-db";
 import { ENVIRONMENT, ERROR_MESSAGES } from "@/lib/utils";
 import { auth } from "@/lib/auth";
+import { requestLimiterByUserId } from "@/lib/limiter";
 
 // Wrap the POST request with the auth handler to check if the user is authenticated
 export const POST = auth(async function POST(req) {
     // Handle the request with proper error handling
     try {
+
+        const rateLimiter = await requestLimiterByUserId(req.auth?.user?.id as string, 1, 60000);
+
+        if (!rateLimiter.allowed) return Response.json({ error: rateLimiter.message }, { status: 429 });
+
         // We Destructure the request
         const { booktopic, targetaudience, bookdescription } = await req.json();
 
