@@ -4,6 +4,7 @@ import "./globals.css";
 import { Toaster } from "@/components/ui/toaster";
 import ReactQueryProvider from "@/lib/react-query-client";
 import Dot from "@/components/dot-background";
+import AuthProvider from "@/lib/session-provider";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -35,10 +36,12 @@ export default async function RootLayout({
         <body
           className={`${geistSans.variable} ${geistMono.variable} antialiased m-0 p-0 w-full h-full`}
         >
-          <Dot className="h-screen">
-            {children}
-            <Toaster />
-          </Dot>
+          <AuthProvider>
+            <Dot className="h-screen">
+              {children}
+              <Toaster />
+            </Dot>
+          </AuthProvider>
         </body>
       </ReactQueryProvider>
     </html>
