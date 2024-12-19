@@ -3,19 +3,26 @@
 import { generateBookPreview, getBookData, getS3Link } from "@/app/actions";
 import { Button } from "@/components/ui/button";
 import { useQuery, useMutation } from "@tanstack/react-query";
-import React, { use, useEffect, useState } from "react";
+import React, { cache, use, useEffect, useState } from "react";
 import PreviewOutline from "@/components/preview-outline";
 import Loader from "@/components/loader";
 import { useRouter } from "next/navigation";
 import PDFViewer from "@/components/pdf-components/pdf-viewer";
+import { CheckCircle2 } from "lucide-react";
+import { MdOutlinePayment } from "react-icons/md";
+import axios from "axios";
+import { useSession } from "next-auth/react";
+import { toast } from "@/hooks/use-toast";
 
 export default function PreviewPage({ params }: { params: Promise<{ bookId: string }> }) {
     // Extract `bookId` from params
     const { bookId } = use(params);
     const router = useRouter();
+    const session = useSession();
 
     // State handlers
     const [s3Link, setS3Link] = useState<string | null>(null);
+    const [isPaymentTriggered, setIsPaymentTriggered] = useState(false);
 
     // Query for fetching book data
     const { data: bookData, isLoading, isError, error, refetch } = useQuery({
@@ -82,9 +89,42 @@ export default function PreviewPage({ params }: { params: Promise<{ bookId: stri
                     <div className="gap-2 max-w-lg">
                         <p className="text-2xl font-semibold">Your book preview is ready!</p>
                         <p>Review the preview and, when you're satisfied, take the next step to finish and bring your book to life.</p>
-                        <Button className="mt-4" onClick={() => { router.push(`/dashboard/generate/${bookId}/final`); }}>
-                            <span className="font-bold">Add to Collections</span> ($0.99)
-                        </Button>
+                        <div className="mt-4">
+                            <Button
+                                disabled={isPaymentTriggered}
+                                onClick={async () => {
+                                    setIsPaymentTriggered(true);
+                                    try {
+                                        const response = await axios.post("/api/payments/purchase", {
+                                            bookId: bookId,
+                                            userId: session.data?.user?.id,
+                                            email: session.data?.user?.email,
+                                        });
+
+                                        if (response.status !== 200) {
+                                            toast({
+                                                variant: "destructive",
+                                                title: "Error",
+                                                description: "Error while making payment",
+                                            });
+                                            return;
+                                        }
+
+                                        const responseJSON = response.data;
+
+                                        router.push(responseJSON.checkoutUrl);
+                                    } catch (error) {
+                                        toast({
+                                            variant: "destructive",
+                                            title: "Error",
+                                            description: "Error while making payment",
+                                        })
+                                    }
+                                    setIsPaymentTriggered(false);
+                                }}>
+                                {isPaymentTriggered ? "Redirecting..." : "Purchase Book"} <MdOutlinePayment />
+                            </Button>
+                        </div>
                     </div>
                     <div className="w-full max-w-xl">
                         <PDFViewer url={s3Link} />
