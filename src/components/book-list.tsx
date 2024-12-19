@@ -3,7 +3,6 @@
 import { generatedSinceWhen } from "@/lib/utils";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "./ui/card";
 import { InfiniteSlider } from "./ui/infinite-slider";
-import Link from "next/link";
 
 interface BookListProps {
     books: BookDocument[];
@@ -21,7 +20,7 @@ const BookCard = ({ book, className }: { book: BookDocument, className?: string 
                 <p className="text-sm">Target Audience: {book.audiencePrompt}</p>
             </CardContent>
             <CardFooter className="text-xs text-muted-foreground">
-                Created {generatedSinceWhen(new Date(book.createdAt))} ago
+                Created {generatedSinceWhen(new Date(book.createdAt as Date))} ago
             </CardFooter>
         </Card>
     )
