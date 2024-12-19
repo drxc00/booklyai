@@ -57,12 +57,12 @@ export default function GeneratePage() {
                 body: JSON.stringify(data),
             });
 
+            const resData = await response.json();
+
             if (!response.ok) {
-                throw new Error(response.statusText);
+                throw new Error(resData.error);
             }
 
-            // get the response from the api
-            const resData = await response.json();
             // setOutline(JSON.parse(resData.outline));
             router.push(`/dashboard/generate/${resData.bookId}/preview`);
 
@@ -70,7 +70,7 @@ export default function GeneratePage() {
             toast({
                 variant: "destructive",
                 title: "Error",
-                description: "Something went wrong while generating the ebook. Please try again later.",
+                description: (error as Error).message,
             });
 
             setIsSubmitting(false);
