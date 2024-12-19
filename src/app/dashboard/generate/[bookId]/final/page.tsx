@@ -95,10 +95,8 @@ export default function FinalPage({ params }: { params: Promise<{ bookId: string
     }
     // Render the generation process
     return (
-        <div className="items-center justify-items-center mt-8 gap-16">
-            <div>
-                <Button onClick={() => generateBookPreview(bookId as string)}>Continue Generating</Button>
-            </div>
+        <div className="flex items-center justify-center h-[calc(100vh-4rem)]">
+            <Loader message="Processing" />
         </div>
     );
 }
