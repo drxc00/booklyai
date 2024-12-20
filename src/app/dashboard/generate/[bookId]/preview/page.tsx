@@ -1,6 +1,6 @@
 "use client";
 
-import { generateBookPreview, getBookData, getS3Link } from "@/app/actions";
+import { getBookData, getS3Link } from "@/app/actions";
 import { Button } from "@/components/ui/button";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import React, { cache, use, useEffect, useState } from "react";
@@ -8,7 +8,6 @@ import PreviewOutline from "@/components/preview-outline";
 import Loader from "@/components/loader";
 import { useRouter } from "next/navigation";
 import PDFViewer from "@/components/pdf-components/pdf-viewer";
-import { CheckCircle2 } from "lucide-react";
 import { MdOutlinePayment } from "react-icons/md";
 import axios from "axios";
 import { useSession } from "next-auth/react";
@@ -35,9 +34,9 @@ export default function PreviewPage({ params }: { params: Promise<{ bookId: stri
     const { mutate: generatePreview, isLoading: isGeneratingPreview, isError: isPreviewError } = useMutation({
         mutationFn: async () => {
             // Check if chapter data is available
-            if (!bookData?.chapters[0]) throw new Error("No chapter data found");
-            // Invoke the preview generation
-            await generateBookPreview(bookId);
+            // if (!bookData?.chapters[0]) throw new Error("No chapter data found");
+            // // Invoke the preview generation
+            // await generateBookPreview(bookId);
         },
         onSuccess: () => {
             refetch(); // Refresh the book data after preview generation
@@ -160,7 +159,7 @@ export default function PreviewPage({ params }: { params: Promise<{ bookId: stri
                     <div>
                         <PreviewOutline bookData={{
                             ...bookData,
-                            bookContents: bookData.bookContents as BookChapter[],
+                            previewContent: bookData.previewContent as BookChapter,
                             chapters: bookData.chapters as Chapter[],
                         }} />
                     </div>

@@ -37,7 +37,7 @@ type BookDocument = {
     audiencePrompt?: string | null | undefined
     descriptionPrompt?: string
     chapters: Chapter[]
-    bookContents: BookChapter[]
+    previewContent: BookChapter
     isPreviewGenerated?: boolean
     isPurchased?: true | false
     createdAt?: Date
