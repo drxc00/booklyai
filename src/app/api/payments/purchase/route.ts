@@ -39,7 +39,7 @@ export async function POST(req: NextRequest, res: NextResponse) {
                         },
                     },
                     product_options: {
-                        redirect_url: `http://localhost:3000/dashboard/generate/${data.bookId}/final`,
+                        redirect_url: `${process.env.NEXT_PUBLIC_URL}/dashboard/book/${data.bookId}/`,
                     },
                     expires_at: expires_at, // 24 hours
                 },
