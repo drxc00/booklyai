@@ -12,7 +12,7 @@ Your books are weel detailed and well researched. You are a master of your craft
 const generateOutlinePrompt = (topic: string, audience: string, description: string) => {
     return `
     Generate an outline for a book of the topic "${topic}" for the audience "${audience}" ${description ? `with a description of ${description}` : ""}. 
-    It should have a minimum of 5 chapters.
+    It should have more thatn 5 chapters.
     Your output should be in JSON format and should strictly follow the outline format.
     `;
 }
