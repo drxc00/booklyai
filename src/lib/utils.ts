@@ -4,7 +4,7 @@ import remarkHtml from "remark-html";
 import { twMerge } from "tailwind-merge";
 
 // Flag to determine if we are in production
-export const ENVIRONMENT: "production" | "development" | "test" = "development";
+export const ENVIRONMENT: "production" | "development" | "test" = process.env.NODE_ENV || "development";
 
 // Constant messages
 export const ERROR_MESSAGES = {
