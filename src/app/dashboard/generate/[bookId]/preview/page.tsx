@@ -31,12 +31,23 @@ export default function PreviewPage({ params }: { params: Promise<{ bookId: stri
     });
 
     // Mutation for generating preview
-    const { mutate: generatePreview, isLoading: isGeneratingPreview, isError: isPreviewError } = useMutation({
+    const { mutate: invokeGeneratePreview, isLoading: isGeneratingPreview, isError: isPreviewError } = useMutation({
         mutationFn: async () => {
-            // Check if chapter data is available
-            // if (!bookData?.chapters[0]) throw new Error("No chapter data found");
-            // // Invoke the preview generation
-            // await generateBookPreview(bookId);
+            try {
+                const reponse = await fetch("/api/generate/preview", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({ bookId: bookId }),
+                });
+
+                if (!reponse.ok) throw new Error("Error generating preview");
+
+            } catch (error) {
+                console.error("Error generating preview:", error);
+                throw error;
+            }
         },
         onSuccess: () => {
             refetch(); // Refresh the book data after preview generation
@@ -126,7 +137,7 @@ export default function PreviewPage({ params }: { params: Promise<{ bookId: stri
                         </div>
                     </div>
                     <div className="w-full max-w-xl">
-                        <PDFViewer url={s3Link} />
+                        <PDFViewer bookId={bookId} type="preview" />
                     </div>
                 </div>
             </div>
@@ -146,7 +157,7 @@ export default function PreviewPage({ params }: { params: Promise<{ bookId: stri
                         </p>
                         <div className="flex gap-2 items-center mt-4 justify-center lg:justify-start">
                             <Button
-                                onClick={() => generatePreview()}
+                                onClick={() => invokeGeneratePreview()}
                                 disabled={isGeneratingPreview}
                             >
                                 {isGeneratingPreview ? "Generating..." : "Generate Preview"}
