@@ -7,7 +7,7 @@ const PDFViewer = ({ bookId, type }: { bookId: string, type: string }) => {
 
     useEffect(() => {
         // Fetch the PDF URL from the server
-        fetch(`/api/get-pdf?key=${bookId}&type=preview`)
+        fetch(`/api/get-pdf?key=${bookId}&type=${type}`)
             .then(response => response.json())
             .then(data => setPdfUrl(data.url))
             .catch(error => console.error('Error fetching PDF URL:', error));
