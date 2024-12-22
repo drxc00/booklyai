@@ -21,7 +21,7 @@ model Books {
   audiencePrompt     String?
   descriptionPrompt  String
   chapters           Json[]
-  previewContent     Json
+  previewContent     Json?
   isPreviewGenerated Boolean  @default(false)
   isPurchased        Boolean  @default(false)
   awsFinalId         String   @default("")
