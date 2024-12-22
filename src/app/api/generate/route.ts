@@ -41,6 +41,7 @@ export const POST = auth(async function POST(req) {
                 topicPrompt: booktopic,
                 audiencePrompt: targetaudience,
                 descriptionPrompt: bookdescription,
+                previewContent: {},
                 chapters: outlineJSON.chapters,
                 isPreviewGenerated: false,
             }
