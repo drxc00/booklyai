@@ -2,6 +2,7 @@ import { S3Client } from "@aws-sdk/client-s3";
 import { S3RequestPresigner } from "@aws-sdk/s3-request-presigner";
 import { loadEnvConfig } from "@next/env";
 import { Hash } from "@aws-sdk/hash-node";
+import { LambdaClient } from "@aws-sdk/client-lambda";
 
 loadEnvConfig(process.cwd()); // Ensure that the .env file is loaded
 
@@ -15,6 +16,7 @@ export const AWS_SECRET_ACCESS_KEY = process.env.AWS_SECRET_KEY
 
 let s3Client: S3Client;
 let s3RequestPresigner: S3RequestPresigner;
+let lambdaClient: LambdaClient;
 
 export const getS3Client = () => {
     if (!s3Client) {
@@ -43,4 +45,21 @@ export const getS3RequestPresigner = () => {
         console.log('S3 Request Presigner created');
     }
     return s3RequestPresigner;
+}
+
+export const getLambdaClient = () => {
+    if (!lambdaClient) {
+        // Create the Lambda client with the configuration
+        lambdaClient = new LambdaClient({
+            region: REGION as string,
+            credentials: {
+                accessKeyId: AWS_ACCESS_KEY_ID as string,
+                secretAccessKey: AWS_SECRET_ACCESS_KEY as string,
+            },
+            endpoint: process.env.AWS_LAMBDA_ENDPOINT as string
+        });
+
+        console.log('Lambda Client created');
+    }
+    return lambdaClient
 }
