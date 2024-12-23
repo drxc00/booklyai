@@ -128,9 +128,9 @@ export default function PreviewPage({ params }: { params: Promise<{ bookId: stri
                                             variant: "destructive",
                                             title: "Error",
                                             description: "Error while making payment",
-                                        })
+                                        });
+                                        setIsPaymentTriggered(false);
                                     }
-                                    setIsPaymentTriggered(false);
                                 }}>
                                 {isPaymentTriggered ? "Redirecting..." : "Purchase Book"} <MdOutlinePayment />
                             </Button>
