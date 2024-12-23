@@ -1,7 +1,7 @@
 
 
 import { signOut } from "@/lib/auth";
-import { Button } from "../ui/button";
+import { Button } from "./ui/button";
 
 export default function LogOutButton({ children, className, variant }: { children: React.ReactNode, className?: string, variant?: "default" | "destructive" | "secondary" }) {
     // bullshit lmao
