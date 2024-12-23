@@ -1,4 +1,5 @@
 import { getLambdaClient } from "@/lib/aws";
+import Logger from "@/lib/logger";
 import { InvokeCommand } from "@aws-sdk/client-lambda";
 import { NextRequest, NextResponse } from "next/server";
 import crypto from "node:crypto";
@@ -31,7 +32,7 @@ export async function POST(req: NextRequest) {
             return NextResponse.json("Invalid request", { status: 400 });
         }
         // Logging
-        console.log("[Webhook][LemonSqueezy] Final order created");
+        Logger.error("Webhook", "Order created");
 
         const lambda = getLambdaClient();
         await lambda.send(new InvokeCommand({
@@ -47,7 +48,7 @@ export async function POST(req: NextRequest) {
         }, { status: 200 });
 
     } catch (error) {
-        console.log(error);
+        Logger.error("AWS", (error as Error).message);;
         return NextResponse.json({ message: "Error generating preview", error: (error as Error).message }, { status: 500 });
     }
 }

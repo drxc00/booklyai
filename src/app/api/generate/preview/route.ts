@@ -15,8 +15,6 @@ export async function POST(req: NextRequest) {
             Payload: JSON.stringify({ bookId: bookId }),
         }));
 
-        console.log(new TextDecoder().decode(lambdaRequest.Payload));
-
         // Return the response
         return NextResponse.json({
             message: "Preview generated successfully",

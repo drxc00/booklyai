@@ -6,6 +6,7 @@ import { ERROR_MESSAGES } from "@/lib/utils";
 import { BUCKET_NAME, getS3RequestPresigner, REGION } from "@/lib/aws";
 import { HttpRequest } from "@aws-sdk/protocol-http";
 import { formatUrl } from "@aws-sdk/util-format-url";
+import Logger from "@/lib/logger";
 
 export async function createPresignedUrl(bookId: string, type: string): Promise<string | null> {
     try {
@@ -30,7 +31,7 @@ export async function createPresignedUrl(bookId: string, type: string): Promise<
 
         return formatUrl(url);
     } catch (error) {
-        console.log(error);
+        Logger.error("AWS", (error as Error).message);
         return null;
     }
 }
@@ -60,7 +61,7 @@ export async function getBooks(numberOfBooks?: number): Promise<BookDocument[] |
         if (!books) throw Error(ERROR_MESSAGES.NO_BOOKS);
         return books;
     } catch (error) {
-        console.log(error);
+        Logger.error("Books", (error as Error).message);
         return null;
     }
 }
@@ -76,7 +77,7 @@ export async function getBookData(bookId: string): Promise<BookDocument | null> 
         // Not the best approach but the JsonBody type is not defined
         return book as unknown as BookDocument;
     } catch (error) {
-        console.log(error);
+        Logger.error("Books", (error as Error).message);
         return null;
     }
 }
@@ -94,7 +95,7 @@ export async function getUserBooks(): Promise<BookDocument[] | null> {
         // Since the types of the returned book document differs from the defined type
         return books as unknown as BookDocument[];
     } catch (error) {
-        console.log(error); // Log the error
+        Logger.error("Books", (error as Error).message); // Log the error
         return null; // Return null 
     }
 }
