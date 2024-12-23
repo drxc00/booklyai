@@ -82,7 +82,7 @@ export default function GeneratePage() {
         <>
             {isSubmitting ? (
                 <div className="flex items-center justify-center h-[calc(100vh-4rem)]">
-                    <Loader message="Generating Outline" />
+                    <Loader message="Generating Preview" />
                 </div>
             ) : (
                 <div className=" items-center text-background-foreground justify-items-center p-8 pb-10 gap-16 justify-center">
