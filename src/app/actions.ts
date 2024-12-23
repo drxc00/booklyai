@@ -3,6 +3,37 @@
 import prisma from "@/lib/prisma-db";
 import { auth } from "@/lib/auth";
 import { ERROR_MESSAGES } from "@/lib/utils";
+import { BUCKET_NAME, getS3RequestPresigner, REGION } from "@/lib/aws";
+import { HttpRequest } from "@aws-sdk/protocol-http";
+import { formatUrl } from "@aws-sdk/util-format-url";
+
+export async function createPresignedUrl(bookId: string, type: string): Promise<string | null> {
+    try {
+        // Fetch only the relevant book information
+        const book = await prisma.books.findUniqueOrThrow({
+            where: {
+                id: bookId,
+            },
+            select: {
+                awsPreviewId: true,
+                awsFinalId: true
+            }
+        }) as unknown as BookDocument
+        const presigner = getS3RequestPresigner();
+
+        // Create a GET request from S3 url.
+        const url = await presigner.presign(new HttpRequest({
+            hostname: `${BUCKET_NAME}.s3.${REGION}.amazonaws.com`,
+            protocol: "https",
+            path: type === "final" ? book.awsFinalId : book.awsPreviewId
+        }));
+
+        return formatUrl(url);
+    } catch (error) {
+        console.log(error);
+        return null;
+    }
+}
 
 async function getUserId(): Promise<string> {
     const session = await auth();
