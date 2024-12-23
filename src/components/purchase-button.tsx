@@ -28,7 +28,6 @@ export default function PurchaseButton({ bookId, session }: PurchaseButtonProps)
                     userId: session?.user?.id,
                     email: session?.user?.email,
                 });
-
                 if (response.status !== 200) {
                     toast({
                         variant: "destructive",
@@ -37,9 +36,7 @@ export default function PurchaseButton({ bookId, session }: PurchaseButtonProps)
                     });
                     return;
                 }
-
                 const responseJSON = response.data;
-
                 router.push(responseJSON.checkoutUrl);
             } catch (error) {
                 toast({
