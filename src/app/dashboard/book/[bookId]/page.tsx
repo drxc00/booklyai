@@ -1,6 +1,6 @@
 import { getBookData } from "@/app/actions";
 import Loader from "@/components/loader";
-import PDFViewer from "@/components/pdf-components/pdf-viewer";
+import PDFViewer from "@/components/pdf-viewer";
 
 const isPreviewGenerated = async (bookId: string) => {
     const book = await getBookData(bookId);

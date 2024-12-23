@@ -38,6 +38,8 @@ type BookDocument = {
     descriptionPrompt?: string
     chapters: Chapter[]
     previewContent: BookChapter
+    awsFinalId?: string
+    awsPreviewId?: string
     isPreviewGenerated?: boolean
     isPurchased?: true | false
     createdAt?: Date

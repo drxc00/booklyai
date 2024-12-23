@@ -9,14 +9,12 @@ import { requestLimiterByUserId } from "@/lib/limiter";
 export const POST = auth(async function POST(req) {
     // Handle the request with proper error handling
     try {
-
+        // Apply Rate limiting
         const rateLimiter = await requestLimiterByUserId(req.auth?.user?.id as string, 1, 60000);
-
         if (!rateLimiter.allowed) return Response.json({ error: rateLimiter.message }, { status: 429 });
 
         // We Destructure the request
         const { booktopic, targetaudience, bookdescription } = await req.json();
-
         // Throw an error if no session is found
         if (!req.auth) throw Error(ERROR_MESSAGES.AUTH_FAILED);
 
