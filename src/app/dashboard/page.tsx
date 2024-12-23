@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 import MyCollections from "@/components/my-collections";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";

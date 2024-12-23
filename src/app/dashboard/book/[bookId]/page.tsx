@@ -12,7 +12,7 @@ export default async function FinalPage({ params }: { params: Promise<{ bookId: 
             <div className="flex flex-col items-center justify-center h-[calc(100vh-4rem)]">
                 <Loader message="Generating your book, please hold on..." />
                 <p className="mt-4 text-center text-gray-600">
-                    You'll receive an email with updates shortly. Feel free to refresh the page in a few minutes to check the status.
+                    You&apos;ll receive an email with updates shortly. Feel free to refresh the page in a few minutes to check the status.
                 </p>
             </div>
         )

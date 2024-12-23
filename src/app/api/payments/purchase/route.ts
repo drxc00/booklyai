@@ -9,7 +9,7 @@ interface RequestBody {
     email: string;
 }
 
-export async function POST(req: NextRequest, res: NextResponse) {
+export async function POST(req: NextRequest) {
     try {
         // Get the request body
         const data: RequestBody = await req.json();

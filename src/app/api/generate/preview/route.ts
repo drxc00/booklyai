@@ -5,7 +5,7 @@ import { NextRequest, NextResponse } from "next/server";
 // Wrapper for the AWS Lambda Function
 export async function POST(req: NextRequest) {
     // Destructure the request and get the bookId
-    const { bookId, ...others } = await req.json();
+    const { bookId } = await req.json();
     try {
         // Invoke the Lambda Function
         const lambda = getLambdaClient();

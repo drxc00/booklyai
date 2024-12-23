@@ -29,7 +29,7 @@ export default async function Home() {
       <main className="min-h-screen">
         <div className="flex flex-col-reverse lg:flex-row lg:items-center gap-16">
           <div className="hidden lg:block">
-            <BookList books={booksLatest} direction="vertical" key={"vertical-slider"}/>
+            <BookList books={booksLatest} direction="vertical" key={"vertical-slider"} />
           </div>
           <div className="block lg:hidden w-lvw">
             <BookList books={booksLatest} direction="horizontal" key={"horizontal-slider"} />

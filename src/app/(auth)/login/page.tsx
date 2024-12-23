@@ -1,17 +1,10 @@
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { signIn, auth, providerMap } from "@/lib/auth";
 import { AuthError } from "next-auth";
+import Link from "next/link";
 import { redirect } from "next/navigation";
 import { FaGoogle } from "react-icons/fa";
-
-interface LoginPageProps {
-    params: {
-        searchParams: {
-            callbackUrl: string | undefined
-        }
-    }
-}
 
 // Provider Icons based on ID
 const providerIcons = {
@@ -24,7 +17,7 @@ const providerIcons = {
 const SIGNIN_ERROR_URL = "/login";
 
 
-export default async function LoginPage({ params }: LoginPageProps) {
+export default async function LoginPage({ params }: { params: Promise<any> }) {
 
     const session = await auth();
     if (session) return redirect("/dashboard");
@@ -44,7 +37,7 @@ export default async function LoginPage({ params }: LoginPageProps) {
                                     "use server"
                                     try {
                                         await signIn(provider.id, {
-                                            redirectTo: params.searchParams?.callbackUrl ?? "/dashboard",
+                                            redirectTo: "/dashboard",
                                         })
                                     } catch (error) {
                                         // Signin can fail for a number of reasons, such as the user
@@ -65,7 +58,7 @@ export default async function LoginPage({ params }: LoginPageProps) {
                     </div>
 
                     <div className="mt-4 text-muted-foreground text-sm">
-                        <span>Go back to <a href="/" className="underline font-semibold">home</a></span>
+                        <span>Go back to <Link href="/" className="underline font-semibold">home</Link></span>
                     </div>
                 </CardContent>
             </Card>

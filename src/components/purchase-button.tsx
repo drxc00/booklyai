@@ -7,7 +7,6 @@ import { toast } from "@/hooks/use-toast";
 import { MdOutlinePayment } from "react-icons/md";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { start } from "repl";
 
 interface PurchaseButtonProps {
     bookId: string;
@@ -42,7 +41,7 @@ export default function PurchaseButton({ bookId, session }: PurchaseButtonProps)
                 toast({
                     variant: "destructive",
                     title: "Error",
-                    description: "Error while making payment",
+                    description: "Error: " + (error as Error).message,
                 });
                 startPayment(false);
             }

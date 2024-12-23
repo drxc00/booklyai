@@ -1,7 +1,6 @@
-import { Book, CheckCircle, Dot, Download, Eye, LucideCircleX } from "lucide-react";
-import { Badge } from "./ui/badge";
+import { CheckCircle, Dot, Download, Eye, LucideCircleX } from "lucide-react";
 import { Button } from "./ui/button";
-import { Card, CardContent, CardFooter } from "./ui/card";
+import { Card, CardContent } from "./ui/card";
 import { generatedSinceWhen } from "@/lib/utils";
 import Link from "next/link";
 
@@ -9,7 +8,7 @@ import Link from "next/link";
 export default function MyCollections({ books }: { books: BookDocument[] }) {
     return (
         <>
-            {books.map((book, index) => (
+            {books.map((book) => (
                 <Card
                     key={book.id}
                     className="w-full hover:shadow-sm transition-shadow duration-300 bg-background border-muted-foreground/80 cursor-pointer">
