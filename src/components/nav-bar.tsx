@@ -2,7 +2,7 @@ import Link from "next/link";
 import { Button } from "./ui/button";
 import { MdOutlineLogout } from "react-icons/md";
 import { MdCollectionsBookmark } from "react-icons/md";
-import LogOutButton from "./(auth-components)/log-out";
+import LogOutButton from "./log-out";
 import { SiWikibooks } from "react-icons/si";
 
 export default async function NavBar() {
