@@ -7,7 +7,7 @@ import { TextLoop } from "@/components/ui/text-loop";
 import { Badge } from "@/components/ui/badge";
 import { AiOutlineOpenAI } from "react-icons/ai";
 import cachedSession from "@/lib/session-cache";
-import LogOutButton from "@/components/(auth-components)/log-out";
+import LogOutButton from "@/components/log-out";
 import { MdCollectionsBookmark, MdOutlineLogout } from "react-icons/md";
 import { Session } from "next-auth";
 
