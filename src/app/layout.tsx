@@ -34,13 +34,11 @@ export default async function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <ReactQueryProvider>
         <body
-          className={`${geistSans.variable} ${geistMono.variable} antialiased m-0 p-0 w-full h-full`}
+          className={`${geistSans.variable} ${geistMono.variable} antialiased m-0 p-0`}
         >
           <AuthProvider>
-            <Dot className="h-screen">
-              {children}
-              <Toaster />
-            </Dot>
+            {children}
+            <Toaster />
           </AuthProvider>
         </body>
       </ReactQueryProvider>
