@@ -28,7 +28,7 @@ export default function MyCollections({ books }: { books: BookDocument[] }) {
                                 </span>
                             )}</p>
                             <Dot className="text-muted-foreground" />
-                            <p className="text-sm text-foreground">{generatedSinceWhen(new Date(book.createdAt))} ago</p>
+                            <p className="text-sm text-foreground">{generatedSinceWhen(new Date(book.createdAt as Date))} ago</p>
 
                         </div>
 
