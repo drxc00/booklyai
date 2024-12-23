@@ -10,7 +10,7 @@ export default async function DashboardPage() {
     // Fetch books of the user
     const books: BookDocument[] = await getUserBooks() as BookDocument[];
     return (
-        <main className="h-screen">
+        <main>
             <div className="grid items-center p-10">
                 <div className="flex justify-between items-center">
                     <h1 className="font-semibold tracking-normal lg:text-4xl md:text-3xl text-xl text-primary-foreground ">My collections ({books.length}) </h1>
