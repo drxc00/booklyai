@@ -31,21 +31,21 @@ export default function BookList({ books, direction }: BookListProps) {
 
     if (direction == "vertical") {
         return (
-            <div className=" items-center">
+            <div className="items-center">
                 <InfiniteSlider direction="vertical" className="flex flex-col gap-4 max-w-full lg:max-h-lvh" key="vertical-slider">
-                    {books.map((book) => (
-                        <BookCard key={book.id} book={book} className="w-full max-w-lg" />
+                    {books.map((book, index) => (
+                        <BookCard key={book.id || index} book={book} className="w-full max-w-lg" />
                     ))}
                 </InfiniteSlider>
             </div>
-        )
+        );
     }
 
     return (
-        <div className=" items-center">
+        <div className="items-center">
             <InfiniteSlider direction="horizontal" className="flex gap-4 whitespace-nowrap" key="horizontal-slider">
-                {books.map((book) => (
-                    <BookCard key={book.id} book={book} />
+                {books.map((book, index) => (
+                    <BookCard key={book.id || index} book={book} />
                 ))}
             </InfiniteSlider>
         </div>
