@@ -30,7 +30,8 @@ export async function POST(req: NextRequest) {
         if (!crypto.timingSafeEqual(hmac, signature)) {
             return NextResponse.json("Invalid request", { status: 400 });
         }
-        console.log("Webhook validated successfully, invoking Lambda...");
+        // Logging
+        console.log("[Webhook][LemonSqueezy] Final order created");
 
         const lambda = getLambdaClient();
         await lambda.send(new InvokeCommand({
