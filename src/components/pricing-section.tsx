@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button"
 import { BookIcon } from 'lucide-react'
 import BackgroundGrid from "./background-grid"
+import Link from "next/link"
 
 export default function Pricing() {
     return (
@@ -22,10 +23,12 @@ export default function Pricing() {
                                 <span className="text-5xl font-bold">$1</span>
                                 <span className="text-muted-foreground">/ebook</span>
                             </div>
-                            <Button size="lg" className="w-full bg-primary hover:bg-primary/90 mb-6">
-                                <BookIcon className="mr-2 h-5 w-5" />
-                                Start Generating
-                            </Button>
+                            <Link href="/dashboard/generate">
+                                <Button size="lg" className="w-full bg-primary hover:bg-primary/90 mb-6">
+                                    <BookIcon className="mr-2 h-5 w-5" />
+                                    Start Generating
+                                </Button>
+                            </Link>
                             <ul className="space-y-2">
                                 <li className="flex items-center">
                                     <svg className="w-4 h-4 mr-2 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path></svg>
