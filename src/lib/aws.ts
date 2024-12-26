@@ -57,7 +57,7 @@ export const getLambdaClient = () => {
                 accessKeyId: AWS_ACCESS_KEY_ID as string,
                 secretAccessKey: AWS_SECRET_ACCESS_KEY as string,
             },
-            endpoint: process.env.AWS_LAMBDA_ENDPOINT as string
+            // endpoint: process.env.AWS_LAMBDA_ENDPOINT as string
         });
         Logger.info("AWS", "Lambda Client created");
     }

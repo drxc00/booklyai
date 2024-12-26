@@ -23,7 +23,7 @@ export const POST = async (req: NextRequest) => {
         // Invoke lambda function
         const lambda = getLambdaClient();
         const lambdaRequest = await lambda.send(new InvokeCommand({
-            FunctionName: "bookly-lambda-dev-generatePreview",
+            FunctionName: `${process.env.AWS_LAMBDA_NAME}-generatePreview`,
             InvocationType: "RequestResponse",
             Payload: JSON.stringify({
                 userId: session.user?.id as string,
@@ -36,6 +36,8 @@ export const POST = async (req: NextRequest) => {
         // Parse the JSON response
         const { body } = JSON.parse(new TextDecoder().decode(lambdaRequest.Payload));
         const { bookId } = JSON.parse(body);
+
+        console.log(body);
 
         // Return a JSON response with the outline and bookId
         return Response.json({ bookId: bookId }, { status: 200 });

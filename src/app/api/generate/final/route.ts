@@ -36,9 +36,9 @@ export async function POST(req: NextRequest) {
 
         const lambda = getLambdaClient();
         await lambda.send(new InvokeCommand({
-            FunctionName: "bookly-lambda-dev-generateFinal",
+            FunctionName: `${process.env.AWS_LAMBDA_NAME}-generateFinal`,
             InvocationType: "Event",
-            Payload: JSON.stringify({ bookId: data.meta.custom_data.bookId, email: data.meta.custom_data.email })
+            Payload: JSON.stringify({ userId: data.meta.custom_data.userId, bookId: data.meta.custom_data.bookId, email: data.meta.custom_data.email })
         }));
 
 
