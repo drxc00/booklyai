@@ -21,18 +21,29 @@ export default function HeroSection({ isLoggedIn }: { isLoggedIn: boolean }) {
                                 Turn your ideas into polished ebooks in minutes. Let AI handle the writing, so you can focus on sharing your ideas with the world.</p>
                         </div>
                         <div className="flex flex-col gap-2 min-[400px]:flex-row">
-                            <Link href="/dashboard/generate">
-                                <Button size="lg" className="">
-                                    <BookOpenIcon className="mr-2 h-5 w-5" />
-                                    Start Generating
-                                </Button>
-                            </Link>
-                            <Link href="/dashboard">
-                                <Button variant="outline" size="lg" className="bg-secondary-foreground border-muted">
-                                    <LibraryIcon className="mr-2 h-5 w-5" />
-                                    Browse Library
-                                </Button>
-                            </Link>
+                            {isLoggedIn ? (
+                                <>
+                                    <Link href="/dashboard/generate">
+                                        <Button size="lg" className="">
+                                            <BookOpenIcon className="mr-2 h-5 w-5" />
+                                            Generate eBook
+                                        </Button>
+                                    </Link>
+                                    <Link href="/dashboard">
+                                        <Button variant="outline" size="lg" className="bg-secondary-foreground border-muted">
+                                            <LibraryIcon className="mr-2 h-5 w-5" />
+                                            Browse Library
+                                        </Button>
+                                    </Link>
+                                </>
+                            ) : (
+                                <Link href="/login" className="w-full">
+                                    <Button size="lg" className="w-full bg-primary hover:bg-primary/90">
+                                        <BookOpenIcon className="mr-2 h-5 w-5" />
+                                        Get Started
+                                    </Button>
+                                </Link>
+                            )}
                         </div>
                     </div>
                 </div>

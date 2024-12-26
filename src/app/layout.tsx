@@ -6,6 +6,8 @@ import ReactQueryProvider from "@/lib/react-query-client";
 import AuthProvider from "@/lib/session-provider";
 import NavBar from "@/components/nav-bar";
 import Footer from "@/components/footer";
+import getCachedSession from "@/lib/session-cache";
+import { Session } from "next-auth";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -31,6 +33,8 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
 
+  const session = await getCachedSession();
+
   return (
     <html lang="en" suppressHydrationWarning>
       <ReactQueryProvider>
@@ -39,7 +43,7 @@ export default async function RootLayout({
         >
           <AuthProvider>
             <main className="min-h-screen">
-              <NavBar />
+              <NavBar session={session as Session} />
               {children}
               <Footer />
             </main>
