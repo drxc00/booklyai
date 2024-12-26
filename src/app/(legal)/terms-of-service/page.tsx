@@ -10,7 +10,7 @@ export default function TermsOfService() {
                     <h2 className="font-semibold text-xl font-serif mb-2">Overview</h2>
                     <p>
                         BooklyAI provides a platform for generating eBooks using artificial intelligence.
-                        These Terms apply to all visitors, users, and others who access the Services ("Users").
+                        These Terms apply to all visitors, users, and others who access the Services (&quot;Users&quot;).
                     </p>
                 </div>
                 <Separator />
