@@ -6,6 +6,7 @@ import { generatedSinceWhen } from "@/lib/utils";
 import { Download } from "lucide-react";
 import getCachedSession from "@/lib/session-cache";
 import ForbiddenAccess from "@/components/forbidden-access";
+import DownloadPDF from "@/components/download-pdf";
 
 export default async function FinalPage({ params }: { params: Promise<{ bookId: string }> }) {
     const { bookId } = await params;
@@ -42,10 +43,7 @@ export default async function FinalPage({ params }: { params: Promise<{ bookId: 
                         <p>Chapters: {book.chapters.length}</p>
                         <p>Created {generatedSinceWhen(new Date(book.createdAt as Date))} ago</p>
                     </div>
-                    <Button className="w-full">
-                        <Download className="mr-2" />
-                        <a href={signedUrl as string}>Download</a>
-                    </Button>
+                    <DownloadPDF presignedUrl={signedUrl as string} fileName={book.title} />
                 </div>
                 <PDFViewer url={signedUrl as string} />
             </div>
