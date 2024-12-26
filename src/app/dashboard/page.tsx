@@ -6,7 +6,7 @@ import { Separator } from "@/components/ui/separator";
 import Link from "next/link";
 import { HiSparkles } from "react-icons/hi2";
 import { getUserBooks } from "../actions";
-import { TbBooksOff } from "react-icons/tb";
+import { CircleOff } from "lucide-react";
 
 export default async function DashboardPage() {
     // Fetch books of the user
@@ -18,8 +18,8 @@ export default async function DashboardPage() {
                     <h1 className="font-semibold font-serif tracking-normal lg:text-4xl md:text-3xl text-xl text-primary-foreground ">My Books ({books.length})</h1>
                     <Link href="/dashboard/generate">
                         <Button className="text-md">
-                            <span className="font-medium">Generate</span>
                             <HiSparkles size={40} />
+                            <span className="font-medium">Generate</span>
                         </Button>
                     </Link>
                 </div>
@@ -30,8 +30,9 @@ export default async function DashboardPage() {
                     </div>
                 ) : (
                     <div className="flex flex-col items-center justify-center text-foreground mt-10">
-                        <TbBooksOff size={50}  />
-                        <p className=" text-2xl">No books found</p>
+                        <CircleOff size={40} />
+                        <h1 className=" text-2xl font-semibold mt-4 font-serif">No books found!</h1>
+                        <p>You haven&apos;t generated any book yet</p>
                     </div>
                 )}
             </div>
