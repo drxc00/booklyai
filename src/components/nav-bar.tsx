@@ -21,12 +21,12 @@ export default async function NavBar({ session }: { session: Session }) {
                         <Link href="/dashboard">
                             <Button className="flex items-center gap-2" ><MdCollectionsBookmark /> <span>Dashboard</span></Button>
                         </Link>
-                        <LogOutButton variant="outline" className="flex items-center border-muted"> <MdOutlineLogout /><span>Logout</span></LogOutButton>
+                        <LogOutButton variant="secondary" className="flex items-center"> <MdOutlineLogout /><span>Logout</span></LogOutButton>
                     </>
                 ) : (
                     <Link href="/login">
-                        <Button variant={"outline"}>
-                            <MdOutlineLogout className="mr-1" />
+                        <Button >
+                            <MdOutlineLogout />
                             Login
                         </Button>
                     </Link>
