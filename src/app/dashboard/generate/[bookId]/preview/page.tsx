@@ -3,14 +3,24 @@
 import React from "react";
 import PDFViewer from "@/components/pdf-viewer";
 import { auth } from "@/lib/auth";
-import { createPresignedUrl } from "@/app/actions";
+import { createPresignedUrl, getBookData } from "@/app/actions";
 import PurchaseButton from "@/components/purchase-button";
 import { Session } from "next-auth";
+import ForbiddenAccess from "@/components/forbidden-access";
 
 export default async function PreviewPage({ params }: { params: Promise<{ bookId: string }> }) {
     // Extract `bookId` from params
     const { bookId } = await params;
-    const [session, url] = await Promise.all([auth(), createPresignedUrl(String(bookId), "preview")]);
+    const [session, url, book] = await Promise.all([
+        auth(),
+        createPresignedUrl(String(bookId), "preview"),
+        getBookData(String(bookId))
+    ]);
+
+    // Check if book belongs to user
+    if (book?.userId !== session?.user?.id) {
+        return <ForbiddenAccess />
+    }
 
     // Render the preview
     return (

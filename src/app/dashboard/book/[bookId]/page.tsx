@@ -4,11 +4,20 @@ import PDFViewer from "@/components/pdf-viewer";
 import { Button } from "@/components/ui/button";
 import { generatedSinceWhen } from "@/lib/utils";
 import { Download } from "lucide-react";
+import getCachedSession from "@/lib/session-cache";
+import ForbiddenAccess from "@/components/forbidden-access";
 
 export default async function FinalPage({ params }: { params: Promise<{ bookId: string }> }) {
     const { bookId } = await params;
 
-    const book = await getBookData(bookId);
+    const [book, session] = await Promise.all([
+        getBookData(bookId),
+        getCachedSession(),
+    ])
+
+    if (book?.userId !== session?.user?.id) {
+        return <ForbiddenAccess />
+    }
 
     if (!book?.awsFinalId) {
         return (
