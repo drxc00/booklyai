@@ -3,7 +3,13 @@
 import { signOut } from "@/lib/auth";
 import { Button } from "./ui/button";
 
-export default function LogOutButton({ children, className, variant }: { children: React.ReactNode, className?: string, variant?: "default" | "destructive" | "secondary" }) {
+interface LogOutButtonProps {
+    children: React.ReactNode;
+    className?: string;
+    variant?: "default" | "destructive" | "secondary" | "outline";
+}
+
+export default function LogOutButton({ children, className, variant }: LogOutButtonProps) {
     // bullshit lmao
     return (
         <form action={async () => {

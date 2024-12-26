@@ -11,9 +11,9 @@ export default function MyCollections({ books }: { books: BookDocument[] }) {
             {books.map((book) => (
                 <Card
                     key={book.id}
-                    className="w-full hover:shadow-sm transition-shadow duration-300 bg-background border-muted-foreground/80 cursor-pointer">
+                    className="w-full bg-background shadow-none cursor-pointer">
                     <CardContent className="pt-6 h-full flex flex-col justify-between gap-3">
-                        <h3 className="font-semibold text-lg mb-2 line-clamp-2">{book.title}</h3>
+                        <h3 className="font-semibold text-lg mb-2 line-clamp-2 font-serif">{book.title}</h3>
                         <div className="flex items-center gap-1">
                             <p className="text-sm text-foreground flex items-center">{book.isPurchased ? (
                                 <span className="flex items-center gap-2">

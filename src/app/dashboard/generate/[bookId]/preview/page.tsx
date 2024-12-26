@@ -17,8 +17,8 @@ export default async function PreviewPage({ params }: { params: Promise<{ bookId
         <div className="grid items-center justify-items-center">
             <div className="grid grid-cols-1 text-center mt-10 lg:grid-cols-2 lg:text-start lg:mt-0 gap-8 items-center">
                 <div className="gap-2 max-w-lg">
-                    <p className="text-2xl font-semibold">Your book preview is ready!</p>
-                    <p>Review the preview and, when you&apos;re satisfied, take the next step to finish and bring your book to life.</p>
+                    <p className="text-3xl font-semibold font-serif">Your book preview is ready!</p>
+                    <p className="text-muted-foreground">Review the preview and, when you&apos;re satisfied, take the next step to finish and bring your book to life.</p>
                     <div className="mt-4">
                         <PurchaseButton bookId={bookId} session={session as Session} />
                     </div>

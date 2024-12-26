@@ -4,6 +4,8 @@ import "./globals.css";
 import { Toaster } from "@/components/ui/toaster";
 import ReactQueryProvider from "@/lib/react-query-client";
 import AuthProvider from "@/lib/session-provider";
+import NavBar from "@/components/nav-bar";
+import Footer from "@/components/footer";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -33,10 +35,14 @@ export default async function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <ReactQueryProvider>
         <body
-          className={`${geistSans.variable} ${geistMono.variable} antialiased m-0 p-0`}
+          className={`${geistSans.variable} ${geistMono.variable} antialiased`}
         >
           <AuthProvider>
-            {children}
+            <main className="min-h-screen">
+              <NavBar />
+              {children}
+              <Footer />
+            </main>
             <Toaster />
           </AuthProvider>
         </body>

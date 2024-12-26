@@ -1,6 +1,9 @@
 import { createPresignedUrl, getBookData } from "@/app/actions";
 import Loader from "@/components/loader";
 import PDFViewer from "@/components/pdf-viewer";
+import { Button } from "@/components/ui/button";
+import { generatedSinceWhen } from "@/lib/utils";
+import { Download } from "lucide-react";
 
 export default async function FinalPage({ params }: { params: Promise<{ bookId: string }> }) {
     const { bookId } = await params;
@@ -22,8 +25,21 @@ export default async function FinalPage({ params }: { params: Promise<{ bookId: 
     const signedUrl = await createPresignedUrl(bookId, "final");
 
     return (
-        <div className="h-[calc(100vh-4rem)] max-w-md mx-auto">
-            <PDFViewer url={signedUrl as string} />
+        <div className="max-w-5xl mx-auto">
+            <div className="flex flex-row gap-10 items-center">
+                <div className="space-y-4 w-full max-w-xl">
+                    <h1 className="font-serif text-3xl font-bold">{book.title}</h1>
+                    <div className="flex gap-4 text-muted-foreground">
+                        <p>Chapters: {book.chapters.length}</p>
+                        <p>Created {generatedSinceWhen(new Date(book.createdAt as Date))} ago</p>
+                    </div>
+                    <Button className="w-full">
+                        <Download className="mr-2" />
+                        <a href={signedUrl as string}>Download</a>
+                    </Button>
+                </div>
+                <PDFViewer url={signedUrl as string} />
+            </div>
         </div>
     );
 }

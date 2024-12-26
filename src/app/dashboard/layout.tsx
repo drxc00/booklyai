@@ -13,8 +13,7 @@ export default async function DashboardLayout({ children }: { children: React.Re
         };
     }
     return (
-        <div className="h-screen">
-            <NavBar />
+        <div className="">
             {children}
         </div>
     )

@@ -15,7 +15,7 @@ export default async function DashboardPage() {
         <main>
             <div className="grid items-center p-10">
                 <div className="flex justify-between items-center">
-                    <h1 className="font-semibold tracking-normal lg:text-4xl md:text-3xl text-xl text-primary-foreground ">My collections ({books.length}) </h1>
+                    <h1 className="font-semibold font-serif tracking-normal lg:text-4xl md:text-3xl text-xl text-primary-foreground ">My Books ({books.length})</h1>
                     <Link href="/dashboard/generate">
                         <Button className="text-md">
                             <span className="font-medium">Generate</span>
