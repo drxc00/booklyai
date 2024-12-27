@@ -23,8 +23,8 @@ export default async function LoginPage({ params }: { params: Promise<any> }) {
     if (session) return redirect("/dashboard");
 
     return (
-        <div className="items-center text-background-foreground justify-items-center p-8 pb-10 gap-16 justify-center">
-            <Card className="border-muted-foreground bg-background w-full max-w-lg shadow-none">
+        <div className="items-centertext-background-foreground justify-items-center p-8 pb-10 gap-16 justify-center">
+            <Card className="bg-card w-full max-w-lg shadow-none">
                 <CardHeader>
                     <CardTitle className="font-normal text-4xl text-center font-serif">Login to <span className="font-bold">booklyai</span></CardTitle>
                 </CardHeader>
@@ -57,7 +57,7 @@ export default async function LoginPage({ params }: { params: Promise<any> }) {
                         ))}
                     </div>
 
-                    <div className="mt-4 text-muted-foreground text-sm">
+                    <div className="mt-4 text-muted-foreground text-sm font-serif">
                         <span>Go back to <Link href="/" className="underline font-semibold">Home</Link></span>
                     </div>
                 </CardContent>

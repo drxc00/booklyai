@@ -7,6 +7,7 @@ import { toast } from "@/hooks/use-toast";
 import { MdOutlinePayment } from "react-icons/md";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { CreditCard } from "lucide-react";
 
 interface PurchaseButtonProps {
     bookId: string;
@@ -47,7 +48,7 @@ export default function PurchaseButton({ bookId, session }: PurchaseButtonProps)
             }
         }}>
             <Button type="submit" disabled={isPaymentPending}>
-                {isPaymentPending ? "Redirecting..." : "Purchase Book"} <MdOutlinePayment />
+                <CreditCard /> <span>{isPaymentPending ? "Redirecting..." : "Purchase Book"}</span>
             </Button>
         </form>
     )

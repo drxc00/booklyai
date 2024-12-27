@@ -12,7 +12,7 @@ interface RecentBooksSectionProps {
 export default function RecentBooksSection({ recentBooks }: RecentBooksSectionProps) {
 
     return (
-        <section className="py-12 md:py-24 lg:py-32 bg-secondary-foreground/50">
+        <section className="py-12 md:py-24 lg:py-32 bg-secondary/5 border">
             <div>
                 <div className="space-y-4 text-center">
                     <div className="space-y-2">

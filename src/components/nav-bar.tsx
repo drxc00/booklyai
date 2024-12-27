@@ -5,6 +5,7 @@ import { MdCollectionsBookmark } from "react-icons/md";
 import LogOutButton from "./log-out";
 import { SiWikibooks } from "react-icons/si";
 import { Session } from "next-auth";
+import { LibraryIcon } from "lucide-react";
 
 export default async function NavBar({ session }: { session: Session }) {
     return (
@@ -19,7 +20,7 @@ export default async function NavBar({ session }: { session: Session }) {
                 {session ? (
                     <>
                         <Link href="/dashboard">
-                            <Button className="flex items-center gap-2" ><MdCollectionsBookmark /> <span>Dashboard</span></Button>
+                            <Button className="flex items-center gap-2" ><LibraryIcon /> <span>Dashboard</span></Button>
                         </Link>
                         <LogOutButton variant="secondary" className="flex items-center"> <MdOutlineLogout /><span>Logout</span></LogOutButton>
                     </>

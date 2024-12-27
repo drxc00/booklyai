@@ -78,22 +78,22 @@ export default function GeneratePage() {
         }
 
     };
-
     return (
         <>
             {isSubmitting ? (
-                <div className="flex items-center justify-center h-[calc(100vh-4rem)]">
+                <div className="flex flex-col items-center justify-center h-[calc(100vh-4rem)]">
                     <Loader message="Generating Preview" />
+                    <p className="mt-2 text-center text-muted-foreground">Please do not refresh the page.</p>
                 </div>
             ) : (
                 <div className="flex items-center justify-center mt-20">
-                    <div className="container flex flex-col items-center justify-center text-background-foreground justify-items-center ">
+                    <div className="flex flex-col w-full items-center justify-center text-background-foreground justify-items-center ">
                         <h1 className="font-serif font-bold tracking-normal text-4xl text-primary-foreground">Generate <span className="text-primary">Ebook</span></h1>
-                        <p className="text-muted-foreground max-w-2xl text-center">
+                        <p className="text-muted-foreground max-w-xl text-center">
                             Start creating your book outline by providing the key details below.
                             Specify the topic, target audience, and an optional description to guide the process.
                         </p>
-                        <div className="mt-10 w-full max-w-3xl">
+                        <div className="mt-6 w-full p-5 max-w-3xl">
                             <Form {...form}>
                                 <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
