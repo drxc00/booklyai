@@ -37,8 +37,6 @@ export const POST = async (req: NextRequest) => {
         const { body } = JSON.parse(new TextDecoder().decode(lambdaRequest.Payload));
         const { bookId } = JSON.parse(body);
 
-        console.log(body);
-
         // Return a JSON response with the outline and bookId
         return Response.json({ bookId: bookId }, { status: 200 });
     }
