@@ -32,7 +32,7 @@ export async function POST(req: NextRequest) {
             return NextResponse.json("Invalid request", { status: 400 });
         }
         // Logging
-        Logger.error("Webhook", "Order created");
+        Logger.info("Webhook", "Order created");
 
         const lambda = getLambdaClient();
         await lambda.send(new InvokeCommand({
