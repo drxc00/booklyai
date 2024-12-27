@@ -4,6 +4,7 @@ import { requestLimiterByUserId } from "@/lib/limiter";
 import { getLambdaClient } from "@/lib/aws";
 import { InvokeCommand } from "@aws-sdk/client-lambda";
 import { NextRequest } from "next/server";
+import { generateFormSchema } from "@/lib/form-schemas";
 
 // Wrap the POST request with the auth handler to check if the user is authenticated
 export const POST = async (req: NextRequest) => {
@@ -20,6 +21,14 @@ export const POST = async (req: NextRequest) => {
         const { booktopic, targetaudience, bookdescription } = await req.json();
         // We check if the title and audience are provided
         if (!booktopic || !targetaudience || bookdescription) return Response.json({ error: "Missing title, audience, or description" }, { status: 400 });
+
+        // Sanitize the request data
+        // Compare with zod schema
+        const sanitize = generateFormSchema.safeParse({ booktopic, targetaudience, bookdescription });
+        if (!sanitize.success) {
+            return Response.json({ error: sanitize.error.errors.map(err => err.message) }, { status: 400 });
+        }
+
         // Invoke lambda function
         const lambda = getLambdaClient();
         const lambdaRequest = await lambda.send(new InvokeCommand({
