@@ -15,24 +15,21 @@ export const requestLimiterByUserId = async (userId: string, limit: number = 1, 
     const currentTime = Date.now();  // Current timestamp in milliseconds
 
     // If the user is not in the tracker or their limit has expired, reset the limit
-    if (!limitTracker[userId]) {
-        // If expired or not found, reset the limit to 0 and set a new expiration time
+    if (!limitTracker[userId] || currentTime >= limitTracker[userId].expiresAt) {
+        // Reset the limit to 0 and set a new expiration time
         limitTracker[userId] = {
             limit: 0,  // No requests made yet in this window
-            expiresAt: currentTime + expiryOffset // Set the expiration time
+            expiresAt: currentTime + expiryOffset, // Set the expiration time
         };
     }
 
-    // Check if the user has reached their request limit
+    // Get the user’s tracker
     const userTracker = limitTracker[userId];
 
+    // If the limit has been reached, deny the request
     if (userTracker.limit >= limit) {
-        // The user has exceeded their limit, so deny the request
         const timeRemaining = userTracker.expiresAt - currentTime;
         const waitTime = timeRemaining > 0 ? timeRemaining : 0;  // Return 0 if expired
-
-        // Remove the user from the tracker to save memory
-        delete limitTracker[userId];
 
         return {
             allowed: false,
