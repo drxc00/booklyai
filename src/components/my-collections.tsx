@@ -32,8 +32,8 @@ export default function MyCollections({ books }: { books: BookDocument[] }) {
                         </div>
 
                         <Link href={book.isPurchased ? `/dashboard/book/${book.id}` : `/dashboard/generate/${book.id}/preview`}>
-                            <Button variant={book.isPurchased ? "default" : "outline"} 
-                                className="w-full bg-secondary-foreground hover:bg-secondary/5">
+                            <Button variant={book.isPurchased ? "default" : "outline"}
+                                className={`w-full ${book.isPurchased ? "" : "bg-secondary-foreground hover:bg-secondary/5"}`}>
                                 {book.isPurchased ? (
                                     <>
                                         <Download className="w-4 h-4" />
