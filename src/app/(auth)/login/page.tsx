@@ -81,19 +81,9 @@ export default async function LoginPage({
                                         key={index}
                                         action={async () => {
                                             "use server"
-                                            try {
-                                                await signIn(provider.id, {
-                                                    redirectTo: "/dashboard",
-                                                })
-                                            } catch (error) {
-                                                // Signin can fail for a number of reasons, such as the user
-                                                // not existing, or the user not having the correct role.
-                                                // In some cases, you may want to redirect to a custom error
-                                                if (error instanceof AuthError) {
-                                                    return redirect(`${SIGNIN_ERROR_URL}?error=${error.type}`)
-                                                }
-                                                Logger.error("Login", (error as Error).message);
-                                            }
+                                            await signIn(provider.id, {
+                                                redirectTo: "/dashboard",
+                                            })
                                         }}
                                     >
                                         <Button variant="outline" className="w-full" type="submit">
