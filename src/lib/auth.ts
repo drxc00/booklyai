@@ -57,6 +57,5 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     logger: {
         error: (code, ...message) => Logger.error("AUTH", (code as Error).message),
         warn: (code, ...message) => Logger.warn("AUTH", code),
-        debug: (code, ...message) => Logger.debug("AUTH", code),
     }
 })
