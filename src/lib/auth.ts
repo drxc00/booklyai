@@ -1,5 +1,6 @@
 import NextAuth from "next-auth";
 import Google from "next-auth/providers/google";
+import GitHub from "next-auth/providers/github";
 import type { Provider } from "next-auth/providers"
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import prisma from "./prisma-db";
@@ -8,8 +9,11 @@ const providers: Provider[] = [
     Google({
         clientId: process.env.GOOGLE_CLIENT_ID as string,
         clientSecret: process.env.GOOGLE_CLIENT_SECRET as string
-
-    })
+    }),
+    GitHub({
+        clientId: process.env.AUTH_GITHUB_ID as string,
+        clientSecret: process.env.AUTH_GITHUB_SECRET as string
+    }),
 ]
 
 // For Provider References
