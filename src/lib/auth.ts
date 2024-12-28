@@ -54,7 +54,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
             return url;
         }
     },
-    debug: process.env.NODE_ENV !== "production",
     logger: {
         error: (code, ...message) => Logger.error("AUTH", (code as Error).message),
         warn: (code, ...message) => Logger.warn("AUTH", code),
