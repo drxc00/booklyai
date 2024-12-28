@@ -4,6 +4,7 @@ import GitHub from "next-auth/providers/github";
 import type { Provider } from "next-auth/providers"
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import prisma from "./prisma-db";
+import Logger from "./logger";
 
 const providers: Provider[] = [
     Google({
@@ -32,7 +33,8 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     adapter: PrismaAdapter(prisma),
     providers: providers,
     pages: {
-        signIn: "/login"
+        signIn: "/login",
+        error: "/login",
     },
     session: {
         strategy: "jwt",
@@ -51,5 +53,11 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         redirect({ url, baseUrl }) {
             return url;
         }
+    },
+    debug: process.env.NODE_ENV !== "production",
+    logger: {
+        error: (code, ...message) => Logger.error("AUTH", (code as Error).message),
+        warn: (code, ...message) => Logger.warn("AUTH", code),
+        debug: (code, ...message) => Logger.debug("AUTH", code),
     }
 })
