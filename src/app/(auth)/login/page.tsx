@@ -27,7 +27,7 @@ const ERROR: { [key: string]: { message: string } } = {
         message: "OAuth Login Failed. Please try again.",
     },
     "OAuthAccountNotLinked": {
-        message: "OAuth Account Not Linked. Please try again.",
+        message: "Email address is already linked to another account.",
     },
     "OAuthCallback": {
         message: "OAuth Login Failed. Please try again.",
