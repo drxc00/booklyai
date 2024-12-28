@@ -7,6 +7,7 @@ import { redirect } from "next/navigation";
 import { AlertCircle } from "lucide-react";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { FaGithub, FaGoogle } from "react-icons/fa";
+import Logger from "@/lib/logger";
 
 // Provider Icons based on ID
 const providerIcons = {
@@ -91,7 +92,7 @@ export default async function LoginPage({
                                                 if (error instanceof AuthError) {
                                                     return redirect(`${SIGNIN_ERROR_URL}?error=${error.type}`)
                                                 }
-                                                throw error
+                                                Logger.error("Login", (error as Error).message);
                                             }
                                         }}
                                     >
