@@ -1,3 +1,5 @@
+import { getBookData } from "@/app/actions";
+import { auth } from "@/lib/auth";
 import { getLambdaClient } from "@/lib/aws";
 import Logger from "@/lib/logger";
 import { InvokeCommand } from "@aws-sdk/client-lambda";
@@ -34,14 +36,51 @@ export async function POST(req: NextRequest) {
         // Logging
         Logger.info("Webhook", "Order created");
 
+        // Validate the request
+        // We check if there is custom data and if the userId and bookId are valid
+
+        const customData = data.meta.custom_data;
+
+        if (
+            !customData ||
+            typeof customData.userId !== "string" ||
+            typeof customData.bookId !== "string" ||
+            typeof customData.email !== "string" ||
+            !customData.email.includes("@")
+        ) {
+            Logger.error("Webhook", "Invalid or missing custom_data");
+            return NextResponse.json({ error: "Invalid custom_data" }, { status: 400 });
+        }
+
+        // Check if the custom data is valid
+        const [user, book] = await Promise.all([
+            auth().then((session) => session?.user),
+            getBookData(customData.bookId)
+        ]);
+
+        if (!user) {
+            Logger.error("Webhook", `Invalid user: ${customData.userId}`);
+            return NextResponse.json({ error: "Invalid user" }, { status: 400 });
+        }
+
+        if (!book) {
+            Logger.error("Webhook", `Invalid book: ${customData.bookId}`);
+            return NextResponse.json({ error: "Invalid book" }, { status: 400 });
+        }
+
+        // Finally we check if the book is already paid/already generated
+        if (book.isPurchased || book.awsFinalId) {
+            Logger.error("Webhook", `Book already paid or generated: ${customData.bookId}`);
+            return NextResponse.json({ error: "Book already paid or generated" }, { status: 400 });
+        }
+
+        // Invoke lambda function
         const lambda = getLambdaClient();
         await lambda.send(new InvokeCommand({
             FunctionName: `${process.env.AWS_LAMBDA_NAME}-generateFinal`,
             InvocationType: "Event",
-            Payload: JSON.stringify({ userId: data.meta.custom_data.userId, bookId: data.meta.custom_data.bookId, email: data.meta.custom_data.email })
+            Payload: JSON.stringify({ userId: customData.userId, bookId: customData.bookId, email: customData.email })
         }));
-
-
         // Return the response
         return NextResponse.json({
             message: "Success",
