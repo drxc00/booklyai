@@ -3,10 +3,13 @@
 import prisma from "@/lib/prisma-db";
 import { auth } from "@/lib/auth";
 import { ERROR_MESSAGES } from "@/lib/utils";
-import { BUCKET_NAME, getS3RequestPresigner, REGION } from "@/lib/aws";
+import { BUCKET_NAME, getS3Client, getS3RequestPresigner, REGION } from "@/lib/aws";
 import { HttpRequest } from "@aws-sdk/protocol-http";
 import { formatUrl } from "@aws-sdk/util-format-url";
 import Logger from "@/lib/logger";
+import { DeleteObjectCommand } from "@aws-sdk/client-s3";
+import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
 
 export async function createPresignedUrl(bookId: string, type: string): Promise<string | null> {
     try {
@@ -97,5 +100,36 @@ export async function getUserBooks(): Promise<BookDocument[] | null> {
     } catch (error) {
         Logger.error("Books", (error as Error).message); // Log the error
         return null; // Return null 
+    }
+}
+
+// Delete a book from the database
+export async function deleteBook(bookId: string, redirectPath?: string): Promise<void> {
+    try {
+        const [userId, book] = await Promise.all([getUserId(), getBookData(bookId)]); // Get the user id and book data
+
+        // Check if the book belongs to the user
+        if (book?.userId !== userId) throw Error("Book does not belong to user");
+
+        // Delete the book from the database and Delete the book from S3
+        const s3Client = getS3Client();
+        await Promise.all([
+            prisma.books.delete({
+                where: {
+                    id: bookId
+                }
+            }),
+            s3Client.send(new DeleteObjectCommand({
+                Bucket: BUCKET_NAME,
+                Key: book.awsPreviewId
+            }))
+        ]);
+
+        if (redirectPath) redirect(redirectPath);
+        else revalidatePath("/dashboard"); // Revalidate the dashboard
+        
+    } catch (error) {
+        Logger.error("Books", (error as Error).message);
+        throw error;
     }
 }
