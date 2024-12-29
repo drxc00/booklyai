@@ -32,7 +32,7 @@ export default function RecentBooksSection({ recentBooks }: RecentBooksSectionPr
                 >
                     <InfiniteSlider duration={100} direction="horizontal" className="max-w-screen">
                         {recentBooks.map((book, index) => (
-                            <Card key={index} className="overflow-hidden bg-background transition-all shadow w-full max-w-md cursor-pointer">
+                            <Card key={index} className="overflow-hidden transition-all shadow w-full max-w-md cursor-pointer">
                                 <CardHeader>
                                     <CardTitle className="font-serif text-xl line-clamp-2">{book.title}</CardTitle>
                                 </CardHeader>
