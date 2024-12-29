@@ -18,7 +18,7 @@ export default function Pricing() {
                         </p>
                     </div>
                     <div className="mx-auto max-w-sm mt-8">
-                        <div className="rounded-xl border border-muted p-8 bg-card">
+                        <div className="rounded-xl border shadow p-8 bg-card">
                             <h3 className="font-serif text-4xl font-bold text-center mb-4">Pricing</h3>
                             <div className="text-center mb-4">
                                 <span className="text-4xl font-bold">$1</span>

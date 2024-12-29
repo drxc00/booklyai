@@ -24,14 +24,14 @@ export default function HeroSection({ isLoggedIn }: { isLoggedIn: boolean }) {
                         <div className="flex flex-col gap-2 md:flex-row lg:flex-row ">
                             {isLoggedIn ? (
                                 <>
-                                    <Link href="/dashboard/generate">
+                                    <Link href="/dashboard/generate" className='flex-1'>
                                         <Button size="lg" className="w-full bg-primary hover:bg-primary/90">
                                             <Sparkles className="h-5 w-5" />
                                             Generate
                                         </Button>
                                     </Link>
-                                    <Link href="/dashboard">
-                                        <Button variant="outline" size="lg" className="w-full bg-secondary-foreground hover:bg-secondary-foreground/90 border-muted">
+                                    <Link href="/dashboard" className='flex-1'>
+                                        <Button variant="secondary" size="lg" className="w-full">
                                             <LibraryIcon className="h-5 w-5" />
                                             Dashboard
                                         </Button>

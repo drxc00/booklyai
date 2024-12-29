@@ -48,7 +48,7 @@ export default async function LoginPage({
     if (session) return redirect("/dashboard");
 
     return (
-        <div className="items-centertext-background-foreground justify-items-center p-8 pb-10 gap-16 justify-center">
+        <div className="items-center text-background-foreground justify-items-center p-8 pb-10 gap-16 justify-center">
             <div className="flex flex-col gap-6">
                 <Card>
                     <CardHeader className="text-center">

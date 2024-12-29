@@ -81,7 +81,7 @@ export default function GeneratePage() {
     return (
         <>
             {isSubmitting ? (
-                <div className="flex flex-col items-center justify-center h-[calc(100vh-4rem)]">
+                <div className="flex flex-col items-center justify-center h-[calc(100vh-8rem)]">
                     <Loader message="Generating Preview" />
                     <p className="mt-2 text-center text-muted-foreground">Please do not refresh the page.</p>
                 </div>
@@ -107,7 +107,7 @@ export default function GeneratePage() {
                                                         <FormControl>
                                                             <Input
                                                                 placeholder="e.g., Self-help, Fiction, History, Technology"
-                                                                className="focus:border-transparent focus:ring-0"
+                                                                className="focus:border-transparent focus:ring-0 bg-muted"
                                                                 {...field} />
                                                         </FormControl>
                                                     </FormItem>
@@ -121,6 +121,7 @@ export default function GeneratePage() {
                                                         <FormLabel className="font-semibold">Target Audience</FormLabel>
                                                         <FormControl>
                                                             <Input placeholder="e.g., Young Adults, Business Professionals, Children"
+                                                            className="bg-muted focus:border-transparent focus:ring-0"
                                                                 {...field} />
                                                         </FormControl>
                                                     </FormItem>
@@ -146,7 +147,7 @@ export default function GeneratePage() {
                                                         <FormControl>
                                                             <Textarea
                                                                 placeholder="Provide a brief summary of the book's content, themes, or objectives..."
-                                                                className="h-full max-h-32 min-h-32"
+                                                                className="h-full max-h-32 min-h-32 bg-muted"
                                                                 {...field}
                                                                 value={description}
                                                                 onChange={(e) => setDescription(e.target.value)}

@@ -4,7 +4,6 @@ import { Button } from "./ui/button";
 import axios from "axios";
 import { Session } from "next-auth";
 import { toast } from "@/hooks/use-toast";
-import { MdOutlinePayment } from "react-icons/md";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { CreditCard } from "lucide-react";
@@ -47,7 +46,7 @@ export default function PurchaseButton({ bookId, session }: PurchaseButtonProps)
                 startPayment(false);
             }
         }}>
-            <Button type="submit" disabled={isPaymentPending}>
+            <Button type="submit" disabled={isPaymentPending} className="w-full">
                 <CreditCard /> <span>{isPaymentPending ? "Redirecting..." : "Purchase Book"}</span>
             </Button>
         </form>
