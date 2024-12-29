@@ -37,18 +37,16 @@ export default async function PreviewPage({ params }: { params: Promise<{ bookId
 
     // Render the preview
     return (
-        <div className="grid items-center justify-items-center h-[calc(100vh-8rem)]">
+        <div className="max-w-5xl grid items-center justify-items-center mx-auto">
             <div className="grid grid-cols-1 text-center mt-10 lg:grid-cols-2 lg:text-start lg:mt-0 gap-8 items-center">
-                <div className="gap-2 max-w-lg">
+                <div className="space-y-2 p-6 lg:p-0 w-full max-w-2xl justify-center">
                     <p className="text-3xl font-semibold font-serif">Your book preview is ready!</p>
                     <p className="text-muted-foreground">Review the preview and, when you&apos;re satisfied, take the next step to finish and bring your book to life.</p>
                     <div className="mt-4">
                         <PurchaseButton bookId={bookId} session={session as Session} />
                     </div>
                 </div>
-                <div className="w-full max-w-xl">
-                    <PDFViewer url={url as string} />
-                </div>
+                <PDFViewer url={url as string} />
             </div>
         </div>
     );
