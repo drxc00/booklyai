@@ -1,5 +1,4 @@
 import { getBookData } from "@/app/actions";
-import { auth } from "@/lib/auth";
 import { getLambdaClient } from "@/lib/aws";
 import Logger from "@/lib/logger";
 import { InvokeCommand } from "@aws-sdk/client-lambda";
@@ -53,15 +52,9 @@ export async function POST(req: NextRequest) {
         }
 
         // Check if the custom data is valid
-        const [user, book] = await Promise.all([
-            auth().then((session) => session?.user),
+        const [book] = await Promise.all([
             getBookData(customData.bookId)
         ]);
-
-        if (!user) {
-            Logger.error("Webhook", `Invalid user: ${customData.userId}`);
-            return NextResponse.json({ error: "Invalid user" }, { status: 400 });
-        }
 
         if (!book) {
             Logger.error("Webhook", `Invalid book: ${customData.bookId}`);
