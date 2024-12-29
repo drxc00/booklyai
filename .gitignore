@@ -39,6 +39,7 @@ yarn-error.log*
 # deploy script
 .sh
 deploy.sh
+renew_ssl.sh
 
 # typescript
 *.tsbuildinfo
