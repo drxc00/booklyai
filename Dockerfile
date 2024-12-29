@@ -19,7 +19,7 @@ COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
 # copy env file
-COPY .env .env
+COPY .env.prod .env
 
 # prisma initialize
 RUN npx prisma generate
