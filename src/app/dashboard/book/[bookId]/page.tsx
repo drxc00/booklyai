@@ -81,7 +81,7 @@ export default async function FinalPage({ params }: { params: Promise<{ bookId: 
                                         await deleteBook(book.id as string, "/dashboard");
                                     }
                                 }>
-                                    <Button variant="destructive" type="submit">
+                                    <Button variant="secondary" type="submit" className="w-full">
                                         <Trash2 className="w-4 h-4" />
                                         Delete
                                     </Button>

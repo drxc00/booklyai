@@ -42,14 +42,14 @@ export default function MyCollections({ books }: { books: BookDocument[] }) {
                         ) : (
                             <div className="flex gap-2">
                                 <Link href={`/dashboard/generate/${book.id}/preview`} className="w-full">
-                                    <Button variant="outline" className="w-full bg-card hover:bg-card/90">
+                                    <Button variant="outline" className="w-full">
                                         <PenLine className="w-4 h-4" />
                                         Finalize
                                     </Button>
                                 </Link>
                                 <AlertDialog>
                                     <AlertDialogTrigger asChild>
-                                        <Button variant="destructive">
+                                        <Button variant="outline">
                                             <Trash2 className="w-4 h-4" />
                                         </Button>
                                     </AlertDialogTrigger>
@@ -68,7 +68,7 @@ export default function MyCollections({ books }: { books: BookDocument[] }) {
                                                     await deleteBook(book.id as string);
                                                 }
                                             }>
-                                                <Button variant="destructive" type="submit">
+                                                <Button variant="secondary" type="submit" className="w-full">
                                                     <Trash2 className="w-4 h-4" />
                                                     Delete
                                                 </Button>

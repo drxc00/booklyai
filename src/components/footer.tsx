@@ -8,7 +8,7 @@ export default function Footer() {
                     <p className="text-xs text-muted-foreground">
                         © 2024 booklyai. All rights reserved.
                     </p>
-                    <nav className="flex space-x-4">
+                    <nav className="flex flex-col lg:flex-row gap-2 lg:gap-4 text-end">
                         <Link href="/privacy-policy" className="text-xs text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-50">Privacy Policy</Link>
                         <Link href="/terms-of-service" className="text-xs text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-50">Terms of Service</Link>
                     </nav>
