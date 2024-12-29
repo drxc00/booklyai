@@ -10,6 +10,14 @@ interface DownloadPDFProps {
     fileName?: string;
 }
 
+interface Navigator {
+    msSaveOrOpenBlob?: (blob: Blob, defaultName?: string) => boolean;
+}
+
+interface Window {
+    MSStream?: any;
+}
+
 export default function DownloadPDF({ presignedUrl, fileName }: DownloadPDFProps) {
     const [downloading, setDownloading] = React.useState(false);
     const handleDownload = async () => {
@@ -21,31 +29,51 @@ export default function DownloadPDF({ presignedUrl, fileName }: DownloadPDFProps
             }
 
             const blob = await response.blob();
-            const url = window.URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = fileName || 'file.pdf';
-            document.body.appendChild(a);
-            a.click();
+            const userAgent = navigator.userAgent || navigator.vendor;
 
-            a.remove();
-            window.URL.revokeObjectURL(url);
+            // Detect Device/Platform
+            const isIOS = /iPad|iPhone|iPod/.test(userAgent) && !(window as Window).MSStream;
+            const isAndroid = /Android/.test(userAgent);
+            const isMobile = /Mobi/.test(userAgent);
+
+            if (isIOS || isAndroid || isMobile) {
+                // Fallback for Mobile Devices (iOS/Android)
+                const reader = new FileReader();
+                reader.onloadend = () => {
+                    const url = reader.result as string;
+                    window.open(url, '_blank'); // Open in a new tab
+                };
+                reader.readAsDataURL(blob);
+            } else if ((window.navigator as Navigator).msSaveOrOpenBlob) {
+                // Fallback for IE/Edge Legacy
+                (window.navigator as Navigator).msSaveOrOpenBlob?.(blob, fileName || 'file.pdf');
+            } else {
+                // Standard Download
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = fileName || 'file.pdf';
+                document.body.appendChild(a);
+                a.click();
+                a.remove();
+                window.URL.revokeObjectURL(url);
+            }
         } catch (error) {
             console.error('Error downloading the file:', error);
             toast({
                 variant: 'destructive',
                 title: 'Error downloading the file',
-                description: 'Please try again later.'
-            })
+                description: 'Please try again later.',
+            });
+        } finally {
+            setDownloading(false);
         }
-        setDownloading(false);
     };
 
     return (
         <Button className="w-full" onClick={handleDownload} disabled={downloading}>
             <Download className="mr-2" />
-            <a href={presignedUrl as string}>Download</a>
+            Download
         </Button>
     );
 };
-
