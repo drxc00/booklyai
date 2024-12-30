@@ -37,6 +37,7 @@
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "core-js": "^3.39.0",
+    "js-file-download": "^0.4.12",
     "lru-cache": "^11.0.2",
     "lucide-react": "^0.465.0",
     "motion": "^11.14.4",

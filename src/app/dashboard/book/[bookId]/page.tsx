@@ -49,7 +49,7 @@ export default async function FinalPage({ params }: { params: Promise<{ bookId: 
 
     return (
         <div className="max-w-5xl grid items-center justify-items-center mx-auto">
-            <div className="grid grid-cols-1 text-center mt-8 lg:grid-cols-2 lg:text-start lg:mt-0 gap-8 items-center">
+            <div className="grid grid-cols-1 text-center mt-8 lg:grid-cols-2 lg:text-start lg:mt-0 lg:gap-8 gap-0 items-center">
                 <div className="space-y-2 p-6 lg:p-0 w-full max-w-2xl justify-center">
                     <h1 className="font-serif text-3xl font-bold">{book.title}</h1>
                     <div className="flex gap-4 justify-center lg:justify-start text-muted-foreground items-center">
