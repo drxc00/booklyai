@@ -2,7 +2,7 @@ import { Separator } from "@/components/ui/separator";
 
 export default function PrivacyPolicy() {
     return (
-        <main className="flex items-center justify-center text-justify mt-10 mb-10">
+        <main className="flex items-center justify-center text-justify mb-10 p-6">
             <div className="grid space-y-5 items-center justify-center w-full max-w-2xl">
                 <h1 className="text-3xl font-semibold font-serif">Privacy Policy</h1>
                 <div>

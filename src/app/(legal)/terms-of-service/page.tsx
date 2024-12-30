@@ -3,7 +3,7 @@ import Link from "next/link"
 
 export default function TermsOfService() {
     return (
-        <main className="flex items-center justify-center text-justify mt-10 mb-10">
+        <main className="flex items-center justify-center text-justify p-6 mb-10">
             <div className="grid space-y-5 items-center justify-center w-full max-w-2xl">
                 <h1 className="text-3xl font-semibold font-serif">Terms of Service</h1>
                 <div>
