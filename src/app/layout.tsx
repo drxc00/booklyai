@@ -22,9 +22,21 @@ const geistMono = localFont({
 
 export const metadata: Metadata = {
   title: "booklyai",
-  description: "Ebook generator that actually works.",
+  description: "Turn your ideas into polished ebooks in minutes. Let AI handle the writing, so you can focus on sharing your ideas with the world.",
+  openGraph: {
+    title: "booklyai",
+    description: "Turn your ideas into polished ebooks in minutes. Let AI handle the writing, so you can focus on sharing your ideas with the world.",
+    images: [
+      {
+        url: process.env.NEXT_PUBLIC_URL + "/api/og",
+        width: 800,
+        height: 600,
+        alt: "booklyai",
+      },
+    ],
+    siteName: "booklyai",
+  },
 };
-
 
 
 export default async function RootLayout({
