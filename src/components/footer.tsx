@@ -2,8 +2,8 @@ import Link from "next/link"
 
 export default function Footer() {
     return (
-        <footer className="w-full border-t sticky top-[100vh]">
-            <div className="border-t">
+        <footer className="w-full border-t border-muted sticky top-[100vh]">
+            <div>
                 <div className="px-4 md:px-6 py-4 flex justify-between items-center">
                     <p className="text-xs text-muted-foreground">
                         © 2024 booklyai. All rights reserved.
