@@ -6,6 +6,33 @@ body {
   font-family: Arial, Helvetica, sans-serif;
 }
 
+@layer utilities {
+  /* Custom scrollbar for Chrome, Safari, and Opera */
+  .transparent-scrollbar::-webkit-scrollbar {
+      width: 5px; /* Adjust the width of the scrollbar */
+  }
+
+  .transparent-scrollbar::-webkit-scrollbar-track {
+      background: rgba(200, 200, 200, 0.8); /* Lighter track */
+  }
+
+  .transparent-scrollbar::-webkit-scrollbar-thumb {
+      background: rgba(136, 136, 136, 0.7); /* Semi-transparent thumb */
+      border-radius: 4px; /* Rounded edges */
+  }
+
+  .transparent-scrollbar::-webkit-scrollbar-thumb:hover {
+      background: rgba(66, 66, 66, 1); /* Darker on hover */
+  }
+
+  /* Custom scrollbar for Firefox */
+  .transparent-scrollbar {
+      scrollbar-width: thin; /* Makes the scrollbar thinner */
+      scrollbar-color: rgba(136, 136, 136, 0.7) rgba(200, 200, 200, 0.8); /* Semi-transparent thumb with lighter track */
+  }
+}
+
+
 @layer base {
   :root {
     --background: 0 0% 96.08%;

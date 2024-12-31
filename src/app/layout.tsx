@@ -36,7 +36,7 @@ export default async function RootLayout({
   const session = await getCachedSession();
 
   return (
-    <html lang="en" suppressHydrationWarning className="scroll-smooth">
+    <html lang="en" suppressHydrationWarning className="scroll-smooth transparent-scrollbar">
       <ReactQueryProvider>
         <body
           className={`${geistSans.variable} ${geistMono.variable} antialiased`}
