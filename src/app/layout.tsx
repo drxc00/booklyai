@@ -49,6 +49,12 @@ export default async function RootLayout({
 
   return (
     <html lang="en" suppressHydrationWarning className="scroll-smooth transparent-scrollbar">
+      <link
+        rel="icon"
+        href="/icon.png"
+        type="image/png"
+        sizes="60"
+      />
       <ReactQueryProvider>
         <body
           className={`${geistSans.variable} ${geistMono.variable} antialiased`}
