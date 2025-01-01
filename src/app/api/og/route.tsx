@@ -4,15 +4,15 @@ import { promises as fs } from 'fs';
 
 export async function GET() {
     // Path to the SVG in the public folder
-    const filePath = path.join(process.cwd(), 'public', 'image.svg');
+    const filePath = path.join(process.cwd(), 'public', 'og-image.png');
 
     // Read the SVG file
-    const svg = await fs.readFile(filePath, 'utf8');
+    const svg = await fs.readFile(filePath);
 
     // Return the SVG as the response with the appropriate content type
     return new NextResponse(svg, {
         headers: {
-            'Content-Type': 'image/svg+xml',
+            'Content-Type': 'image/png',
         },
     });
 }
