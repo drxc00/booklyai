@@ -39,7 +39,7 @@ export async function POST(req: NextRequest) {
                         },
                     },
                     product_options: {
-                        redirect_url: `${process.env.NEXT_PUBLIC_URL}/dashboard/book/${data.bookId}/`,
+                        redirect_url: `${process.env.NEXT_PUBLIC_URL}/book/${data.bookId}/`,
                     },
                     expires_at: expires_at, // 24 hours
                 },

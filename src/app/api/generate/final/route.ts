@@ -1,6 +1,7 @@
 import { getBookData } from "@/app/actions";
 import { getLambdaClient } from "@/lib/aws";
 import Logger from "@/lib/logger";
+import prisma from "@/lib/prisma-db";
 import { InvokeCommand } from "@aws-sdk/client-lambda";
 import { NextRequest, NextResponse } from "next/server";
 import crypto from "node:crypto";
@@ -67,13 +68,27 @@ export async function POST(req: NextRequest) {
             return NextResponse.json({ error: "Book already paid or generated" }, { status: 400 });
         }
 
+        // Update the book status to purchased
+        const bookPurchasedPromise = prisma.books.update({
+            where: {
+                id: customData.bookId
+            },
+            data: {
+                isPurchased: true
+            }
+        });
+
         // Invoke lambda function
         const lambda = getLambdaClient();
-        await lambda.send(new InvokeCommand({
+        const lambdaPromise = lambda.send(new InvokeCommand({
             FunctionName: `${process.env.AWS_LAMBDA_NAME}-generateFinal`,
             InvocationType: "Event",
             Payload: JSON.stringify({ userId: customData.userId, bookId: customData.bookId, email: customData.email })
         }));
+
+        // wait for the promises to resolve
+        await Promise.all([bookPurchasedPromise, lambdaPromise]);
+
         // Return the response
         return NextResponse.json({
             message: "Success",

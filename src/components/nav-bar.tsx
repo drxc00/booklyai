@@ -19,8 +19,8 @@ export default async function NavBar({ session }: { session: Session }) {
             <div className="flex gap-2">
                 {session ? (
                     <>
-                        <Link href="/dashboard">
-                            <Button className="flex items-center gap-2" ><LibraryIcon /> <span className="sm:block hidden">Dashboard</span></Button>
+                        <Link href="/library">
+                            <Button className="flex items-center gap-2" ><LibraryIcon /> <span className="sm:block hidden">Library</span></Button>
                         </Link>
                         <LogOutButton variant="secondary" className="flex items-center"> <MdOutlineLogout /><span className="sm:block hidden">Logout</span></LogOutButton>
                     </>

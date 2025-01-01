@@ -65,7 +65,7 @@ export default function GeneratePage() {
             }
 
             // setOutline(JSON.parse(resData.outline));
-            router.push(`/dashboard/generate/${resData.bookId}/preview`);
+            router.push(`/generate/${resData.bookId}`);
 
         } catch (error) {
             toast({
@@ -121,7 +121,7 @@ export default function GeneratePage() {
                                                         <FormLabel className="font-semibold">Target Audience</FormLabel>
                                                         <FormControl>
                                                             <Input placeholder="e.g., Young Adults, Business Professionals, Children"
-                                                            className="bg-muted focus:border-transparent focus:ring-0"
+                                                                className="bg-muted focus:border-transparent focus:ring-0"
                                                                 {...field} />
                                                         </FormControl>
                                                     </FormItem>

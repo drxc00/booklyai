@@ -45,7 +45,7 @@ export default async function LoginPage({
 }) {
     const session = await getCachedSession();
     const urlParams = await searchParams;
-    if (session) return redirect("/dashboard");
+    if (session) return redirect("/library");
 
     return (
         <div className="items-center text-background-foreground justify-items-center p-8 pb-10 gap-16 justify-center">
@@ -82,7 +82,7 @@ export default async function LoginPage({
                                         action={async () => {
                                             "use server"
                                             await signIn(provider.id, {
-                                                redirectTo: "/dashboard",
+                                                redirectTo: "/library",
                                             })
                                         }}
                                     >

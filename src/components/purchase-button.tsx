@@ -6,14 +6,16 @@ import { Session } from "next-auth";
 import { toast } from "@/hooks/use-toast";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { CreditCard } from "lucide-react";
+import { ShoppingCart } from "lucide-react";
 
 interface PurchaseButtonProps {
     bookId: string;
     session: Session
+    variant?: "default" | "secondary";
+    className?: string;
 }
 
-export default function PurchaseButton({ bookId, session }: PurchaseButtonProps) {
+export default function PurchaseButton({ bookId, session, variant, className }: PurchaseButtonProps) {
 
     const [isPaymentPending, startPayment] = useState<boolean>(false);
     const router = useRouter();
@@ -46,8 +48,8 @@ export default function PurchaseButton({ bookId, session }: PurchaseButtonProps)
                 startPayment(false);
             }
         }}>
-            <Button type="submit" disabled={isPaymentPending} className="w-full">
-                <CreditCard /> <span>{isPaymentPending ? "Redirecting..." : "Purchase Book"}</span>
+            <Button type="submit" disabled={isPaymentPending} className={`w-full ${className}`} variant={variant || "default"}>
+                <ShoppingCart /> <span>{isPaymentPending ? "Redirecting..." : "Purchase"}</span>
             </Button>
         </form>
     )

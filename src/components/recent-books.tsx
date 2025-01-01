@@ -16,7 +16,7 @@ export default function RecentBooksSection({ recentBooks }: RecentBooksSectionPr
             <div>
                 <div className="space-y-4 text-center">
                     <div className="space-y-2">
-                        <h2 className="font-serif text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
+                        <h2 className="font-serif text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl text-primary-foreground">
                             Fresh Off the <span className="text-primary">Press</span>
                         </h2>
                         <p className="mx-auto text-muted-foreground">

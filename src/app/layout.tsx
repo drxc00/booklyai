@@ -23,6 +23,10 @@ const geistMono = localFont({
 export const metadata: Metadata = {
   title: "booklyai",
   description: "Turn your ideas into polished ebooks in minutes. Let AI handle the writing, so you can focus on sharing your ideas with the world.",
+  abstract: "Turn your ideas into polished ebooks in minutes. Let AI handle the writing, so you can focus on sharing your ideas with the world.",
+  keywords: ["booklyai", "ebook", "ai", "writing", "aiebooks", "aiebook", "bookly", "gpt-4o"],
+  robots: "follow, index",
+  category: "AI",
   openGraph: {
     title: "booklyai",
     description: "Turn your ideas into polished ebooks in minutes. Let AI handle the writing, so you can focus on sharing your ideas with the world.",
@@ -32,9 +36,15 @@ export const metadata: Metadata = {
         width: 800,
         height: 600,
         alt: "booklyai",
+        type: "image/png",
       },
     ],
     siteName: "booklyai",
+    type: "website",
+    locale: "en_US",
+    url: process.env.NEXT_PUBLIC_URL,
+    determiner: "",
+
   },
 };
 
@@ -53,8 +63,9 @@ export default async function RootLayout({
         rel="icon"
         href="/icon.png"
         type="image/png"
-        sizes="60"
+        sizes="32x32"
       />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       <ReactQueryProvider>
         <body
           className={`${geistSans.variable} ${geistMono.variable} antialiased`}

@@ -3,41 +3,11 @@
 import prisma from "@/lib/prisma-db";
 import { auth } from "@/lib/auth";
 import { ERROR_MESSAGES } from "@/lib/utils";
-import { BUCKET_NAME, getS3Client, getS3RequestPresigner, REGION } from "@/lib/aws";
-import { HttpRequest } from "@aws-sdk/protocol-http";
-import { formatUrl } from "@aws-sdk/util-format-url";
+import { BUCKET_NAME, getS3Client} from "@/lib/aws";
 import Logger from "@/lib/logger";
 import { DeleteObjectCommand } from "@aws-sdk/client-s3";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
-
-export async function createPresignedUrl(bookId: string, type: string): Promise<string | null> {
-    try {
-        // Fetch only the relevant book information
-        const book = await prisma.books.findUniqueOrThrow({
-            where: {
-                id: bookId,
-            },
-            select: {
-                awsPreviewId: true,
-                awsFinalId: true
-            }
-        }) as unknown as BookDocument
-        const presigner = getS3RequestPresigner();
-
-        // Create a GET request from S3 url.
-        const url = await presigner.presign(new HttpRequest({
-            hostname: `${BUCKET_NAME}.s3.${REGION}.amazonaws.com`,
-            protocol: "https",
-            path: type === "final" ? book.awsFinalId : book.awsPreviewId
-        }));
-
-        return formatUrl(url);
-    } catch (error) {
-        Logger.error("AWS", (error as Error).message);
-        return null;
-    }
-}
 
 async function getUserId(): Promise<string> {
     const session = await auth();
@@ -126,7 +96,7 @@ export async function deleteBook(bookId: string, redirectPath?: string): Promise
         ]);
 
         if (redirectPath) redirect(redirectPath);
-        else revalidatePath("/dashboard"); // Revalidate the dashboard
+        else revalidatePath("/library"); // Revalidate the dashboard
         
     } catch (error) {
         Logger.error("Books", (error as Error).message);

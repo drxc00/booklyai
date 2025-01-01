@@ -1,4 +1,4 @@
-import NavBar from "@/components/nav-bar";
+
 import cachedSession from "@/lib/session-cache";
 import { redirect } from "next/navigation";
 

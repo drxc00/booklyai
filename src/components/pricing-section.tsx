@@ -7,7 +7,7 @@ import Link from "next/link";
 export default function Pricing() {
     return (
         <BackgroundGrid>
-            <section className="w-full py-12 md:py-24 lg:py-32 items-center justify-center">
+            <section className="w-full py-12 md:py-24 lg:py-32 items-center justify-center text-primary-foreground">
                 <div className="px-4 md:px-6">
                     <div className="flex flex-col items-center justify-center space-y-2 text-center">
                         <h2 className="font-serif text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
@@ -24,7 +24,7 @@ export default function Pricing() {
                                 <span className="text-4xl font-bold">$1</span>
                                 <span className="text-muted-foreground">/ebook</span>
                             </div>
-                            <Link href="/dashboard/generate">
+                            <Link href="/generate">
                                 <Button size="lg" className="w-full bg-primary hover:bg-primary/90 mb-6 items-center">
                                     <SparklesIcon className=" h-5 w-5" />
                                     Start Generating
