@@ -1,20 +1,35 @@
-# [bookly**ai**](https://booklyai.com)
+<img src="public/og-image.png" alt="BooklyAI Icon" height="300" style="display: block; margin: 0 auto; border-radius: 10px;" />
+
+# [booklyai](https://booklyai.com)
+
 An AI-Powered Ebook Generator that actually works. Powered by GPT-4o.
-Built with Next.js 15 App Router, TypeScript, MongoDB, AWS S3 & Lambda functions, and LemonSqueezy.
 
-## Features
-- Created using **Next.js 15**
-- Uses **MongoDB** as its primary database and AWS **S3** for PDF storage
-- Uses **AWS Lambda Functions** for the backend
-- Implemented with user Authentication (Google and Github OAuth) using **Auth.js**
-- **LemonSqueezy** is used for the payment gateway
-- Allows users to generate ebook based on a `topic`, `target audience`, and `description`
-- Powered by **GPT-4o** model for quality generations
+Built with **Next.js 15 App Router**, **TypeScript**, **MongoDB**, **AWS S3 & Lambda functions**, and **LemonSqueezy**.
 
-## Deployment
-- The lambda function is deployed to AWS and is not available for the public.
-- The front-end is self-hosted on a VPS.
-- You can view the application at https://booklyai.com
+## ✨ Features
 
-# Notes
-This repository is for the front-end code of the site. I order to use the application, a separate lambda function deployed to aws is required, which is not available for the public. 
+- **Next.js 15** - Modern React framework for server-side rendering
+- **Database & Storage**
+  - MongoDB as primary database
+  - AWS S3 for PDF storage
+- **Backend Services**
+  - AWS Lambda Functions for backend operations
+  - User Authentication via Google and Github OAuth using Auth.js
+- **E-commerce Integration**
+  - LemonSqueezy payment gateway
+- **AI-Powered Ebook Generation**
+  - Create ebooks based on:
+    - Topic
+    - Target audience
+    - Description
+  - Powered by GPT-4o for high-quality content generation
+
+## 🚀 Deployment
+
+- **Backend**: AWS Lambda function (private)
+- **Frontend**: Self-hosted on VPS
+- **Live Site**: [https://booklyai.com](https://booklyai.com)
+
+## ℹ️ Notes
+
+This repository contains only the front-end code. The AWS Lambda function required for full functionality is not publicly available. 
