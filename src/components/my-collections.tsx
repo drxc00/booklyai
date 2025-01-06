@@ -15,7 +15,7 @@ export default function MyCollections({ books, session }: { books: BookDocument[
                     key={book.id}
                     className="w-full cursor-pointer shadow-md">
                     <CardHeader>
-                        <CardTitle className="font-black text-primary-foreground text-lg mb-2 line-clamp-1 font-serif">{book.title}</CardTitle>
+                        <CardTitle className="font-semibold text-primary-foreground text-lg mb-2 line-clamp-1 font-serif">{book.title}</CardTitle>
                         <CardDescription className="line-clamp-2">
                             <div className="flex gap-2 justify-between w-full">
                                 <p className="text-sm flex items-center">{book.isPurchased ? (
