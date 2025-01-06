@@ -1,9 +1,6 @@
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
 
-// Flag to determine if we are in production
-export const ENVIRONMENT: "production" | "development" | "test" = "production";
-
 // Constant messages
 export const ERROR_MESSAGES = {
   AUTH_FAILED: "Authentication failed. Please log in.",
