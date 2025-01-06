@@ -2,12 +2,10 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import getCachedSession from "@/lib/session-cache";
 import { signIn, providerMap } from "@/lib/auth";
-import { AuthError } from "next-auth";
 import { redirect } from "next/navigation";
 import { AlertCircle } from "lucide-react";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { FaGithub, FaGoogle } from "react-icons/fa";
-import Logger from "@/lib/logger";
 
 // Provider Icons based on ID
 const providerIcons = {
@@ -20,8 +18,6 @@ const providerIcons = {
         color: "text-muted-foreground"
     }
 }
-
-const SIGNIN_ERROR_URL = "/login";
 
 const ERROR: { [key: string]: { message: string } } = {
     "OAuthCallbackError": {
@@ -69,7 +65,7 @@ export default async function LoginPage({
                                     <AlertCircle className="h-4 w-4" />
                                     <AlertTitle>Login failed</AlertTitle>
                                     <AlertDescription className="text-sm">
-                                        {ERROR[urlParams.error as string].message}
+                                        {ERROR[urlParams.error as string]?.message || "Something went wrong. Please try again."}
                                     </AlertDescription>
                                 </Alert>
                             </div>
