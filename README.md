@@ -28,7 +28,7 @@ Built with **Next.js 15 App Router**, **TypeScript**, **MongoDB**, **AWS S3 & La
 
 - **Backend**: AWS Lambda function (private)
 - **Frontend**: Self-hosted on VPS
-- **Live Site**: [https://booklyai.com](https://booklyai.com)
+- **Live Site**: [https://booklyai.net](https://booklyai.net)
 
 ## ℹ️ Notes
 
