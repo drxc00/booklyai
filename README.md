@@ -6,6 +6,8 @@ An AI-Powered Ebook Generator that actually works. Powered by GPT-4o.
 
 Built with **Next.js 15 App Router**, **TypeScript**, **MongoDB**, **AWS S3 & Lambda functions**, and **LemonSqueezy**.
 
+- [Demo](https://youtu.be/sl8OWSZqDdU)
+
 ## ✨ Features
 
 - **Next.js 15** - Modern React framework for server-side rendering
