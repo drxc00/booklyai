@@ -1,6 +1,6 @@
 <img src="public/og-image.png" alt="BooklyAI Icon" height="300" style="display: block; margin: 0 auto; border-radius: 10px;" />
 
-# [booklyai](https://booklyai.com)
+#  booklyai [Archived]
 
 An AI-Powered Ebook Generator that actually works. Powered by GPT-4o.
 
@@ -26,10 +26,10 @@ Built with **Next.js 15 App Router**, **TypeScript**, **MongoDB**, **AWS S3 & La
 
 ## 🚀 Deployment
 
-- **Backend**: AWS Lambda function (private)
-- **Frontend**: Self-hosted on VPS
-- **Live Site**: [https://booklyai.net](https://booklyai.net)
+- **Backend**: AWS Lambda function
+- ~~**Frontend**: Self-hosted on VPS~~
+- ~~**Live Site**: [https://booklyai.net](https://booklyai.net)~~
 
 ## ℹ️ Notes
 
-This repository contains only the front-end code. The AWS Lambda function required for full functionality is not publicly available. 
+The backend lambda function is available at this public github repo: [https://github.com/drxc00/bookly-serverless](https://github.com/drxc00/bookly-serverless)
